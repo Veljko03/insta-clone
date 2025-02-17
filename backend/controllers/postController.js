@@ -1,4 +1,4 @@
-const db = require("../db/queries");
+const db = require("../db/post-queries");
 
 const createNewPost = async (req, res) => {
   try {
