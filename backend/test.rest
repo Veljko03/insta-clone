@@ -1,0 +1,10 @@
+POST http://localhost:3000/auth/sign-in
+Content-Type: application/json
+
+{
+    "name":"Marko",
+    "email":"marko@gmail.com",
+    "password":"lozinka"
+}
+
+GET http://localhost:3000/user
