@@ -2,7 +2,7 @@ POST http://localhost:3000/auth/sign-in
 Content-Type: application/json
 
 {
-    "name":"Marko",
+    "name":"drugi",
     "email":"marko@gmail.com",
     "password":"lozinka"
 }
@@ -14,7 +14,7 @@ POST http://localhost:3000/post
 Content-Type: application/json
 
 {
-    "content":"ovo je moj drugi post",
+    "content":"ovo je moj p post",
     "photo":"",
     "userID":"1"
 }
@@ -31,26 +31,20 @@ Content-Type: application/json
 { 
     "userId":"1"
 }
-
+//COMMENTS
 ###
 POST http://localhost:3000/comment
 Content-Type: application/json
 
 { 
-    "content":"rthfgds cometar",
+    "content":"user 1 komenratise post 1",
      "userId":"1",
      "postId":"1"
 
 }
 ###
-get http://localhost:3000/comment
-Content-Type: application/json
+get http://localhost:3000/post/1/comments
 
-{ 
-
-     "postId":"1"
-
-}
 ###
 DELETE  http://localhost:3000/comment
 Content-Type: application/json
@@ -60,3 +54,27 @@ Content-Type: application/json
       "userId":"1",
      "postId":"1"
 }
+
+###
+POST http://localhost:3000/comment/like
+Content-Type: application/json
+
+{ 
+    "commentId":"1",
+    "userId":"1"
+}
+###
+GET http://localhost:3000/comment/1/like
+
+//LIKES
+###
+post  http://localhost:3000/post/like
+Content-Type: application/json
+
+{ 
+   
+      "userId":"4",
+     "postId":"5"
+}
+###
+GET   http://localhost:3000/post/5/like

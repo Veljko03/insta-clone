@@ -6,6 +6,8 @@ const likePost = async (post_id, user_id) => {
     "SELECT * FROM post_likes WHERE post_id=$1 AND user_id=$2",
     [post_id, user_id]
   );
+  console.log(check.rows, " lies");
+
   if (check.rowCount > 0) {
     const result = await pool.query(
       "DELETE FROM post_likes WHERE post_id=$1 AND user_id=$2 RETURNING *",
@@ -24,24 +26,43 @@ const likePost = async (post_id, user_id) => {
     return result.rows[0];
   }
 };
-
-const likeComment = async (comment_id, user_id) => {
-  const check = await pool.query(
-    "SELECT * FROM comment_likes WHERE comment_id=$1 AND user_id=$2",
-    [comment_id, user_id]
+const getNumOfPostLikes = async (postId) => {
+  const result = await pool.query(
+    "SELECT COUNT(id) FROM post_likes WHERE post_id = $1",
+    [postId]
   );
+  return result.rows[0];
+};
+
+const getNumOfCommentLikes = async (commentId) => {
+  const result = await pool.query(
+    "SELECT COUNT(id) FROM comment_likes WHERE comment_id = $1",
+    [commentId]
+  );
+  return result.rows[0];
+};
+
+const likeComment = async (commentId, userId) => {
+  const check = await pool.query(
+    "SELECT * FROM comment_likes WHERE comment_id=$1 AND user_id=$2 ",
+    [commentId, userId]
+  );
+  console.log(check.rows, "check");
+
   if (check.rowCount > 0) {
     const result = await pool.query(
       "DELETE FROM comment_likes WHERE comment_id=$1 AND user_id=$2 RETURNING *",
-      [comment_id, user_id]
+      [commentId, userId]
     );
     console.log("Deleted like");
 
     return result.rows[0];
   } else {
+    console.log("usao u else");
+
     const result = await pool.query(
       "INSERT INTO comment_likes (comment_id, user_id) VALUES ($1, $2) RETURNING *",
-      [comment_id, user_id]
+      [commentId, userId]
     );
     console.log("added like");
 
@@ -85,4 +106,6 @@ module.exports = {
   createNewComment,
   getAllComments,
   deleteCommentById,
+  getNumOfPostLikes,
+  getNumOfCommentLikes,
 };
