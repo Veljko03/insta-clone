@@ -50,7 +50,39 @@ const likeComment = async (comment_id, user_id) => {
 };
 
 const fetchPostLikesById = async (postId) => {
-  //const likes = await pool.query()
+  const likes = await pool.query("SELECT * FROM post_likes WHERE post_id=$1", [
+    postId,
+  ]);
+  return likes.rowCount;
 };
 
-module.exports = { likePost, likeComment };
+//COMMENTS
+const createNewComment = async (content, userId, postId) => {
+  const comment = await pool.query(
+    "INSERT INTO comments (content,user_id,post_id) VALUES ($1,$2,$3) RETURNING *",
+    [content, userId, postId]
+  );
+  return comment.rows[0];
+};
+
+const getAllComments = async (postId) => {
+  const comments = await pool.query("SELECT * from comments WHERE post_id=$1", [
+    postId,
+  ]);
+  return comments.rows;
+};
+
+const deleteCommentById = async (postId, commentId, userId) => {
+  const res = await pool.query(
+    "DELETE FROM comments WHERE post_id=$1 AND id=$2 AND user_id=$3 RETURNING *",
+    [postId, commentId, userId]
+  );
+  return res.rows[0];
+};
+module.exports = {
+  likePost,
+  likeComment,
+  createNewComment,
+  getAllComments,
+  deleteCommentById,
+};

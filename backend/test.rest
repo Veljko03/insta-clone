@@ -31,3 +31,32 @@ Content-Type: application/json
 { 
     "userId":"1"
 }
+
+###
+POST http://localhost:3000/comment
+Content-Type: application/json
+
+{ 
+    "content":"rthfgds cometar",
+     "userId":"1",
+     "postId":"1"
+
+}
+###
+get http://localhost:3000/comment
+Content-Type: application/json
+
+{ 
+
+     "postId":"1"
+
+}
+###
+DELETE  http://localhost:3000/comment
+Content-Type: application/json
+
+{ 
+    "commentId":"4",
+      "userId":"1",
+     "postId":"1"
+}
