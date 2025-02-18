@@ -10,8 +10,8 @@ export default function Input({ typeOfInput, value, onChange }) {
           type="email"
           placeholder="Enter your email"
           autoCapitalize="none"
-          autoCorrect={false}
           value={value}
+          required
           onChange={onChange}
         />
       </div>
@@ -25,8 +25,9 @@ export default function Input({ typeOfInput, value, onChange }) {
           type="password"
           placeholder="Enter your password"
           autoCapitalize="none"
-          autoCorrect={false}
           value={value}
+          minLength={6}
+          required
           onChange={onChange}
         />
       </div>
@@ -40,6 +41,8 @@ export default function Input({ typeOfInput, value, onChange }) {
           type="text"
           placeholder="Alice Rodrigese"
           value={value}
+          minLength={3}
+          required
           onChange={onChange}
         />
       </div>

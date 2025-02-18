@@ -1,3 +1,48 @@
 .button_container {
   background-color: aqua;
 }
+
+.inputContainer {
+  width: 420px;
+  padding: 4px;
+  height: 60px;
+  margin-top: 20px;
+}
+
+.styledInput {
+  background-color: #767676;
+  border-radius: 16px;
+  width: 100%;
+  height: 100%;
+  color: white;
+  font-size: 20px;
+  padding-left: 12px;
+}
+
+.inputLabel {
+  color: white;
+  font-size: 22px;
+  font-weight: 800;
+  padding-left: 10px;
+}
+
+.buttonContainer {
+  width: 320px;
+  height: 60px;
+  margin-top: 20px;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.buttonCon {
+  border-radius: 10px;
+  background-color: #ffd33d;
+  color: black;
+  font-size: 22px;
+  font-weight: 800;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
