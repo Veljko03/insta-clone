@@ -1,8 +1,8 @@
 import "./components.css";
-export default function Button({ label, onPress }) {
+export default function Button({ label }) {
   return (
     <div className="buttonContainer">
-      <button onClick={onPress} className="buttonCon">
+      <button type="submit" className="buttonCon">
         {label}
       </button>
     </div>

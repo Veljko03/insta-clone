@@ -9,7 +9,8 @@ const SignPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignIn = () => {
+  const handleSignIn = (e) => {
+    e.preventDefault();
     if (name == "" || email == "" || password == "") {
       alert("Enter values first");
     }
@@ -23,7 +24,7 @@ const SignPage = () => {
           <div>Create New</div>
           <div>Acoount</div>
         </div>
-        <div className="section2">
+        <form onSubmit={handleSignIn} className="section2">
           <Input
             typeOfInput={"name"}
             value={name}
@@ -40,8 +41,8 @@ const SignPage = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <Button label={"Sign up"} onPress={handleSignIn} />
-        </div>
+          <Button label={"Sign up"} />
+        </form>
         <div className="section3">
           <h1>Allready have an account?</h1>
           <Link to={"/auth/log-in"}>Login</Link>

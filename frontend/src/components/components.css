@@ -45,4 +45,10 @@
   height: 100%;
   align-items: center;
   justify-content: center;
+  border-width: 0;
+  cursor: pointer;
+}
+
+.buttonCon:hover {
+  transform: scale(1.1);
 }
