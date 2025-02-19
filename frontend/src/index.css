@@ -10,6 +10,7 @@
   font-size: 44px;
   padding: 24px;
   font-weight: 800;
+  border-bottom: 1px solid white;
 }
 
 .porfilePic {
@@ -18,4 +19,24 @@
 .content {
   display: flex;
   gap: 100px;
+  margin-top: 60px;
+}
+
+.sidebarContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-left: 10rem;
+}
+
+.iconName {
+  border-radius: 6px;
+
+  padding: 4px;
+}
+
+.iconName a {
+  text-decoration: none;
+  color: white;
+  font-size: 26px;
 }

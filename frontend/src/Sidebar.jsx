@@ -1,7 +1,34 @@
+import { Link } from "react-router-dom";
+
 const SideBar = () => {
   return (
     <div className="sidebarContainer">
-      <h1>side var</h1>
+      <div className="iconName">
+        <Link to={"/"}>Home</Link>
+      </div>
+      <div className="iconName">
+        <Link to={"/"}>Create</Link>
+      </div>
+      <div className="iconName">
+        {" "}
+        <Link to={"/"}>Users</Link>
+      </div>
+      <div className="iconName">
+        {" "}
+        <Link to={"/"}>Messages</Link>
+      </div>
+      <div className="iconName">
+        {" "}
+        <Link to={"/"}>Likes</Link>
+      </div>
+      <div className="iconName">
+        {" "}
+        <Link to={"/"}>Profile</Link>
+      </div>
+      <div className="iconName">
+        {" "}
+        <Link to={"/"}>Settings</Link>
+      </div>
     </div>
   );
 };

@@ -1,7 +1,10 @@
 const HomePage = () => {
   return (
-    <div>
-      <h1>this is home page</h1>
+    <div className="homeContainer">
+      <div className="homeNav">
+        <a href="">Rexent</a>
+        <a href="Folloving"></a>
+      </div>
     </div>
   );
 };
