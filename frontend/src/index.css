@@ -3,3 +3,19 @@
   background-color: #25292e;
   font-family: "Segoe UI", Tahoma, sans-serif;
 }
+
+.header {
+  display: flex;
+  color: #ffd33d;
+  font-size: 44px;
+  padding: 24px;
+  font-weight: 800;
+}
+
+.porfilePic {
+  margin-left: auto;
+}
+.content {
+  display: flex;
+  gap: 100px;
+}
