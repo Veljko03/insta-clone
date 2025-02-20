@@ -16,7 +16,7 @@
   flex-direction: column;
   gap: 16px;
   align-items: center;
-  margin-top: 60px;
+  padding-top: 60px;
 }
 
 .section1 {
