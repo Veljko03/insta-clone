@@ -22,6 +22,7 @@ const HomePage = () => {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>A network error was encountered</p>;
+  console.log(posts[0]);
 
   if (posts) {
     return (
@@ -36,7 +37,14 @@ const HomePage = () => {
         </div>
         <div className="posts">
           {posts.map((post) => (
-            <Post key={post.id} />
+            <Post
+              key={post.id}
+              content={post.content}
+              numComments={post.comments}
+              numLikes={post.likes}
+              img={post.post_image}
+              creator={post.username}
+            />
           ))}
         </div>
       </div>

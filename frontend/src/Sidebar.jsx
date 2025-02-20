@@ -7,7 +7,7 @@ const SideBar = () => {
         <Link to={"/"}>Home</Link>
       </div>
       <div className="iconName">
-        <Link to={"/"}>Create</Link>
+        <Link to={"/create"}>Create</Link>
       </div>
       <div className="iconName">
         {" "}

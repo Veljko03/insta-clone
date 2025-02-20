@@ -7,21 +7,22 @@ const Post = ({
   content,
   numLikes,
   numComments,
+  creator,
 }) => {
   return (
     <div className="post">
       <div className="postTop">
         <p>P</p>
-        <p>iem</p>
-        <p>prez</p>
+        <p>{username}</p>
         <p>vreme</p>
+        <p>{creator}</p>
       </div>
       <div className="postContent">
-        <p>ckldsafjklsadjflaks;</p>
+        <p>{content}</p>
       </div>
       <div className="postLike">
-        <p>Like</p>
-        <p>Comment</p>
+        <p>Like {numLikes} </p>
+        <p>Comment {numComments}</p>
       </div>
     </div>
   );
