@@ -1,9 +1,10 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 require("dotenv").config();
 const { authRouter, userRouter, postRouter } = require("./routes/index");
 app.use(express.json());
-
+app.use(cors());
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
 app.use("/", postRouter);

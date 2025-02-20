@@ -16,7 +16,7 @@ Content-Type: application/json
 {
     "content":"ovo je moj p post",
     "photo":"",
-    "userID":"1"
+    "userID":"2"
 }
 ###
 GET http://localhost:3000/post

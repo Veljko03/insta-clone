@@ -5,4 +5,6 @@ const getAllUsers = async (req, res) => {
   res.json(users);
 };
 
+const followUser = async (req, res) => {};
+
 module.exports = { getAllUsers };

@@ -19,7 +19,9 @@ const createNewPost = async (constent, userID, photo) => {
 };
 
 const getAllPosts = async () => {
-  const result = await pool.query("SELECT * FROM posts");
+  const result = await pool.query(
+    "SELECT p.id,p.content,p.post_image,p.created_at,u.username,COUNT(c.id) as comments,COUNT(l.id) as likes FROM posts p INNER JOIN users u on p.user_id=u.id LEFT JOIN comments c on p.id=c.post_id LEFT JOIN post_likes l on p.id=l.post_id GROUP BY p.id,u.username "
+  );
   return result.rows;
 };
 
