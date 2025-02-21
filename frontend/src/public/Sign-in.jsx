@@ -2,18 +2,42 @@ import { useState } from "react";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import "./public.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
 
   const handleSignIn = (e) => {
     e.preventDefault();
     if (name == "" || email == "" || password == "") {
       alert("Enter values first");
     }
+    const user = { email, name, password };
+    fetch(`${API_URL}/auth/sign-in`, {
+      method: "post",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          setEmail("");
+          setName("");
+          setPassword("");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data) {
+          navigate("/auth/log-in");
+        }
+      });
   };
 
   return (
