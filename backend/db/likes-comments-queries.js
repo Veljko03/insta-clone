@@ -6,7 +6,6 @@ const likePost = async (post_id, user_id) => {
     "SELECT * FROM post_likes WHERE post_id=$1 AND user_id=$2",
     [post_id, user_id]
   );
-  console.log(check.rows, " lies");
 
   if (check.rowCount > 0) {
     const result = await pool.query(
@@ -47,7 +46,6 @@ const likeComment = async (commentId, userId) => {
     "SELECT * FROM comment_likes WHERE comment_id=$1 AND user_id=$2 ",
     [commentId, userId]
   );
-  console.log(check.rows, "check");
 
   if (check.rowCount > 0) {
     const result = await pool.query(

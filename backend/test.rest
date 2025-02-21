@@ -2,10 +2,20 @@ POST http://localhost:3000/auth/sign-in
 Content-Type: application/json
 
 {
-    "name":"drugi",
-    "email":"marko@gmail.com",
+    "name":"marko",
+    "email":"darko@gmail.com",
     "password":"lozinka"
 }
+
+###
+POST http://localhost:3000/auth/log-in
+Content-Type: application/json
+
+{
+    "email":"darko@gmail.com",
+    "password":"lozinka"
+}
+
 ###
 GET http://localhost:3000/user
 
@@ -14,9 +24,9 @@ POST http://localhost:3000/post
 Content-Type: application/json
 
 {
-    "content":"ovo je moj p post",
+    "content":"ovo je moj p post napravljenj od strane veljka me dksafjlkdsafjjdslafjkldsajfklds;jafkjsadkfjsadkl;fjdsaf;aj;fjdsa;flidjsakl;fjsadlfk",
     "photo":"",
-    "userID":"2"
+    "userID":"3"
 }
 ###
 GET http://localhost:3000/post

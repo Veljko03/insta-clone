@@ -2,14 +2,11 @@ const pool = require("./pool");
 
 const getUserByEmail = async (email) => {
   try {
-    console.log(email);
-
     const user = await pool.query("SELECT * FROM users WHERE email=$1", [
       email,
     ]);
-    console.log(user, " user");
 
-    return user.rowCount;
+    return user.rows[0];
   } catch (error) {
     throw error;
   }

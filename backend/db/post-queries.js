@@ -30,8 +30,6 @@ const getPostById = async (postId) => {
   return post.rows[0];
 };
 const deletePostById = async (postId, userId) => {
-  console.log(postId, " postid ", userId);
-
   const post = await pool.query(
     "DELETE FROM posts WHERE id=$1 AND user_id=$2 RETURNING *",
     [postId, userId]

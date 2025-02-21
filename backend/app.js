@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 require("dotenv").config();
+require("./config/passpoer");
 const { authRouter, userRouter, postRouter } = require("./routes/index");
 app.use(express.json());
 app.use(cors());
