@@ -1,4 +1,5 @@
 const express = require("express");
+const passport = require("passport");
 const {
   createNewPost,
   fetchAllPosts,
@@ -18,7 +19,11 @@ const router = express.Router();
 
 router.post("/post", createNewPost);
 
-router.get("/post", fetchAllPosts);
+router.get(
+  "/post",
+  passport.authenticate("jwt", { session: false }),
+  fetchAllPosts
+);
 
 router.get("/post/:id", fetchPostById);
 

@@ -30,7 +30,7 @@ Content-Type: application/json
 }
 ###
 GET http://localhost:3000/post
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo0LCJ1c2VybmFtZSI6Im1hcmtvIiwicGFzc3dvcmRfaGFzaCI6IiQyYiQxMCRxRmVLcE1PelB0RmpEN2p1REZ3TTkuZzNKbGZtblc4Q3RPSEN0b0tUek1ESjlCZzJNWlFzLiIsImdvb2dsZV9pZCI6bnVsbCwicHJvZmlsZV9pbWFnZSI6bnVsbCwiYmlvZ3JhcGh5IjpudWxsLCJlbWFpbCI6ImRhcmtvQGdtYWlsLmNvbSJ9LCJpYXQiOjE3NDAxNDcyNzksImV4cCI6MTc0MDIzMzY3OX0.KnR1WDGWAt3aHDJD-174u7GTfHK1walNbe8Ccd66ShY
 ###
 GET http://localhost:3000/post/1
 

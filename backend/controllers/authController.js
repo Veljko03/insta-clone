@@ -2,6 +2,7 @@ const db = require("../db/authQueries");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+const passport = require("passport");
 //SIGN-IN
 const createNewUser = async (req, res) => {
   const { name, email, password } = req.body;
@@ -36,7 +37,6 @@ const logIn = async (req, res) => {
   if (!user) {
     res.status(400).json({ message: "Email or password are wrong" });
   }
-  console.log(user, " userrr");
 
   const validatePassword = await bcrypt.compare(password, user.password_hash);
   if (!validatePassword) {
