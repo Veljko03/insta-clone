@@ -19,7 +19,7 @@ function App() {
     }
   }, []);
 
-  if (!user) return null;
+  if (!user || !token) return null;
   return (
     <div className="appContainer">
       <div className="header">
@@ -28,7 +28,7 @@ function App() {
       </div>
       <div className="content">
         <SideBar />
-        <Outlet />
+        <Outlet context={[token, user]} />
       </div>
     </div>
   );

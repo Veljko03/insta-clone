@@ -2,9 +2,9 @@
   display: flex;
   flex-direction: column;
   margin-left: 10rem;
-  border-top: 1px solid white;
+  /* border-top: 1px solid white;
   border-left: 1px solid white;
-  border-right: 1px solid white;
+  border-right: 1px solid white; */
 
   flex: 1;
   margin-right: 20rem;
