@@ -17,7 +17,11 @@ const {
 } = require("../controllers/com-like-Controller");
 const router = express.Router();
 
-router.post("/post", createNewPost);
+router.post(
+  "/post",
+  passport.authenticate("jwt", { session: false }),
+  createNewPost
+);
 
 router.get(
   "/post",
@@ -25,23 +29,59 @@ router.get(
   fetchAllPosts
 );
 
-router.get("/post/:id", fetchPostById);
+router.get(
+  "/post/:id",
+  passport.authenticate("jwt", { session: false }),
+  fetchPostById
+);
 
-router.delete("/post/:id", deletePostById);
+router.delete(
+  "/post/:id",
+  passport.authenticate("jwt", { session: false }),
+  deletePostById
+);
 
 //LIKE-post
 
-router.post("/post/like", likePost);
+router.post(
+  "/post/like",
+  passport.authenticate("jwt", { session: false }),
+  likePost
+);
 
-router.get("/post/:id/like", fetchNumOfPostLikes);
+router.get(
+  "/post/:id/like",
+  passport.authenticate("jwt", { session: false }),
+  fetchNumOfPostLikes
+);
 
 //COMMENTS
 
-router.post("/comment", createNewComment);
-router.get("/post/:id/comments", fetchAllCommentsInPost);
-router.delete("/comment", deleteCommentFormPost);
+router.post(
+  "/comment",
+  passport.authenticate("jwt", { session: false }),
+  createNewComment
+);
+router.get(
+  "/post/:id/comments",
+  passport.authenticate("jwt", { session: false }),
+  fetchAllCommentsInPost
+);
+router.delete(
+  "/comment",
+  passport.authenticate("jwt", { session: false }),
+  deleteCommentFormPost
+);
 
-router.post("/comment/like", likeComment);
-router.get("/comment/:id/like", fetchNumOfCommentLikes);
+router.post(
+  "/comment/like",
+  passport.authenticate("jwt", { session: false }),
+  likeComment
+);
+router.get(
+  "/comment/:id/like",
+  passport.authenticate("jwt", { session: false }),
+  fetchNumOfCommentLikes
+);
 
 module.exports = router;

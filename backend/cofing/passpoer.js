@@ -1,5 +1,6 @@
 const dotenv = require("dotenv");
 const pool = require("../db/pool");
+const jwt = require("jsonwebtoken");
 
 const envFile =
   process.env.NODE_ENV === "production"
@@ -13,7 +14,7 @@ const JwtStrategy = require("passport-jwt").Strategy,
 const passport = require("passport");
 const { getUserById } = require("../db/post-queries");
 
-const GoogleStrategy = require("passport-google-oauth2");
+const GoogleStrategy = require("passport-google-oauth2").Strategy;
 const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = process.env.SECRET_KEY;
@@ -47,11 +48,11 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:5173/oauth2/redirect/google",
+      callbackURL: "http://localhost:3000/auth/oauth2/redirect/google",
+      scope: ["profile", "email"],
+      passReqToCallback: true,
     },
-    async function verify(issuer, profile, cb) {
-      console.log("usaooo");
-
+    async function verify(request, accessToken, refreshToken, profile, done) {
       try {
         const { rows } = await pool.query(
           "SELECT * FROM users WHERE google_id = $1",
@@ -62,17 +63,24 @@ passport.use(
 
         if (!user) {
           const newUser = await pool.query(
-            "INSERT INTO users (user_name, google_id) VALUES ($1, $2) RETURNING *",
-            [profile.displayName, profile.id]
+            "INSERT INTO users (username,email,google_id) VALUES ($1,$2,$3) RETURNING *",
+            [profile.displayName, profile.email, profile.id]
           );
           console.log("dodaje usera u bazu");
 
-          user = newUser.rows[0];
+          //user = newUser.rows[0];
+          const created = newUser.rows[0];
+
+          const token = jwt.sign({ created }, process.env.SECRET_KEY, {
+            expiresIn: "24h",
+          });
+
+          user = { token, created };
         }
 
-        return cb(null, user);
+        return done(null, user);
       } catch (err) {
-        return cb(err);
+        return done(err);
       }
     }
   )
