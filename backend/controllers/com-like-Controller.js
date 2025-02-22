@@ -52,6 +52,7 @@ const createNewComment = async (req, res) => {
   const { content, userId, postId } = req.body;
   if (!content || !userId || !postId) {
     res.status(400).json({ message: "somtehing missing" });
+    return;
   }
   const newComment = await db.createNewComment(content, userId, postId);
   res.json(newComment);

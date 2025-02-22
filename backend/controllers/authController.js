@@ -7,47 +7,61 @@ const passport = require("passport");
 const createNewUser = async (req, res) => {
   const { name, email, password } = req.body;
 
-  if (!name || !email || !password) {
-    res.status(400).json({ message: "Something missing" });
-  }
-  console.log("Raaaaaaa");
+  try {
+    if (!name || !email || !password) {
+      res.status(400).json({ message: "Something missing" });
+      return;
+    }
+    console.log("Raaaaaaa");
 
-  const check = await db.getUserByEmail(email);
+    const check = await db.getUserByEmail(email);
 
-  if (check != null) {
-    res.status.json({ message: "User allready exists" });
+    if (check != null) {
+      res.status.json({ message: "User allready exists" });
+      return;
+    }
+
+    bcrypt.hash(password, 10, async (err, hashedPassword) => {
+      if (err) return;
+
+      const newUser = await db.createNewUser(name, email, hashedPassword);
+      res.json(newUser);
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
     return;
   }
-
-  bcrypt.hash(password, 10, async (err, hashedPassword) => {
-    if (err) return;
-
-    const newUser = await db.createNewUser(name, email, hashedPassword);
-    res.json(newUser);
-  });
 };
 
 const logIn = async (req, res) => {
   const { email, password } = req.body;
-  if (!email || !password) {
-    res.status(400).json({ message: "Something missing" });
-  }
+  try {
+    if (!email || !password) {
+      res.status(400).json({ message: "Something missing" });
+      return;
+    }
 
-  const user = await db.getUserByEmail(email);
-  if (!user) {
-    res.status(400).json({ message: "Email or password are wrong" });
-  }
+    const user = await db.getUserByEmail(email);
+    if (!user) {
+      res.status(400).json({ message: "Email or password are wrong" });
+      return;
+    }
 
-  const validatePassword = await bcrypt.compare(password, user.password_hash);
-  if (!validatePassword) {
-    res.status(400).json({ message: "Email or password are wrong" });
-  }
+    const validatePassword = await bcrypt.compare(password, user.password_hash);
+    if (!validatePassword) {
+      res.status(400).json({ message: "Email or password are wrong" });
+      return;
+    }
 
-  const token = jwt.sign({ user }, process.env.SECRET_KEY, {
-    expiresIn: "24h",
-  });
-  const result = { token, user };
-  res.json(result);
+    const token = jwt.sign({ user }, process.env.SECRET_KEY, {
+      expiresIn: "24h",
+    });
+    const result = { token, user };
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+    return;
+  }
 };
 
 module.exports = { createNewUser, logIn };
