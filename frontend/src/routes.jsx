@@ -3,6 +3,7 @@ import LogPage from "./public/Log-in";
 import SignPage from "./public/Sign-in";
 import HomePage from "./pages/Home";
 import CreatePage from "./pages/Create";
+import UsersPage from "./pages/Users";
 
 const routes = [
   {
@@ -11,7 +12,7 @@ const routes = [
     children: [
       { index: true, element: <HomePage /> },
       { path: "/create", element: <CreatePage /> },
-      // { path: "/basket", element: <Basket /> },
+      { path: "/users", element: <UsersPage /> },
     ],
   },
   {

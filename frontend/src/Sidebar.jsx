@@ -11,7 +11,7 @@ const SideBar = () => {
       </div>
       <div className="iconName">
         {" "}
-        <Link to={"/"}>Users</Link>
+        <Link to={"/users"}>Users</Link>
       </div>
       <div className="iconName">
         {" "}

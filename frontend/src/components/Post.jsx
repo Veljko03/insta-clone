@@ -8,9 +8,10 @@ const Post = ({
   numLikes,
   numComments,
   creator,
+  handleClick,
 }) => {
   return (
-    <div className="post">
+    <div onClick={handleClick} className="post">
       <div className="postTop">
         <p>P</p>
         <p>{username}</p>

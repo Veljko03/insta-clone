@@ -35,10 +35,10 @@ const HomePage = () => {
     <div className="homeContainer">
       <div className="homeNav">
         <div className="n1">
-          <a href="">Rexent</a>
+          <a href="">Recent</a>
         </div>
         <div className="n2">
-          <a href="">Folloving</a>
+          <a href="">Following</a>
         </div>
       </div>
       <div className="posts">
