@@ -1,21 +1,36 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import "./index.css";
 import SideBar from "./Sidebar";
+import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 function App() {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const navigate = useNavigate();
+
+  const isTokenExpired = (token) => {
+    if (!token) return true;
+    try {
+      const decodedToken = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      return decodedToken.exp < currentTime;
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return true;
+    }
+  };
   useEffect(() => {
     const sotredUser = localStorage.getItem("user");
     const storedToken = localStorage.getItem("token");
-    if (sotredUser) {
+    const result = isTokenExpired(storedToken);
+
+    if (sotredUser && storedToken && !result) {
+      console.log(result);
+
       setUser(JSON.parse(sotredUser));
+      setToken(storedToken);
     } else {
       navigate("/auth/log-in");
-    }
-    if (storedToken) {
-      setToken(storedToken);
     }
   }, []);
 

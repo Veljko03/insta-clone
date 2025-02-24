@@ -14,6 +14,7 @@ const HomePage = () => {
 
   useEffect(() => {
     if (!token) return;
+
     fetch(`${API_URL}/post`, {
       method: "get",
       mode: "cors",
