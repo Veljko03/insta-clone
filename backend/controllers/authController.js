@@ -1,4 +1,5 @@
 const db = require("../db/authQueries");
+const userDb = require("../db/usersQueries");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -14,7 +15,7 @@ const createNewUser = async (req, res) => {
     }
     console.log("Raaaaaaa");
 
-    const check = await db.getUserByEmail(email);
+    const check = await userDb.getUserByEmail(email);
 
     if (check != null) {
       res.status.json({ message: "User allready exists" });
@@ -41,7 +42,7 @@ const logIn = async (req, res) => {
       return;
     }
 
-    const user = await db.getUserByEmail(email);
+    const user = await userDb.getUserByEmail(email);
     if (!user) {
       res.status(400).json({ message: "Email or password are wrong" });
       return;

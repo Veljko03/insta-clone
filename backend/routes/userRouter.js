@@ -4,4 +4,6 @@ const controller = require("../controllers/usersController");
 
 router.get("/", controller.getAllUsers);
 
+router.post("/", controller.searchUsers);
+
 module.exports = router;

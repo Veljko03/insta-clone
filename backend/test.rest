@@ -20,6 +20,14 @@ Content-Type: application/json
 GET http://localhost:3000/user
 
 ###
+POST  http://localhost:3000/user
+Content-Type: application/json
+
+{
+    "findText":"a"
+}
+
+###
 POST http://localhost:3000/post
 Content-Type: application/json
 
