@@ -19,7 +19,7 @@ const SideBar = () => {
       </div>
       <div className="iconName">
         {" "}
-        <Link to={"/"}>Likes</Link>
+        <Link to={"/liked-posts"}>Likes</Link>
       </div>
       <div className="iconName">
         {" "}

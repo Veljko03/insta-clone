@@ -40,6 +40,7 @@ const CreatePage = () => {
         alert(err.message);
       });
   };
+
   return (
     <div className="homeContainer">
       <form className="postForm" action="" onSubmit={handlePostAdd}>

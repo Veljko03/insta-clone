@@ -6,12 +6,10 @@ const UsersPage = () => {
   const [findText, setFindText] = useState("");
   const [users, setUsers] = useState([]);
   const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
-  const [token, user] = useOutletContext();
+  const [token] = useOutletContext();
 
   const handleUsersSearch = (e) => {
     e.preventDefault();
-    const userID = user.id;
-    //treba pretraziti sve usere osim samog sebe
 
     fetch(`${API_URL}/user`, {
       method: "post",

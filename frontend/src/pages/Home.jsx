@@ -7,10 +7,10 @@ const HomePage = () => {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [token] = useOutletContext();
+  const [token, user] = useOutletContext();
+  const [rerender, setRerender] = useState(false);
 
   const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
-  console.log(API_URL, " api url");
 
   useEffect(() => {
     if (!token) return;
@@ -26,7 +26,26 @@ const HomePage = () => {
       .then((data) => setPosts(data))
       .catch((error) => setError(error))
       .finally(() => setLoading(false));
-  }, []);
+  }, [rerender]);
+
+  const handleLikePost = (postId) => {
+    if (!token || !postId || !user) return;
+    const userID = user.id;
+
+    fetch(`${API_URL}/post/like`, {
+      method: "post",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ userId: userID, postId: postId }),
+    })
+      .then((response) => response.json())
+      .then((data) => setRerender((prev) => !prev))
+      .catch((error) => console.log(error))
+      .finally(() => setLoading(false));
+  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>A network error was encountered</p>;
@@ -44,14 +63,7 @@ const HomePage = () => {
       </div>
       <div className="posts">
         {posts.map((post) => (
-          <Post
-            key={post.id}
-            content={post.content}
-            numComments={post.comments}
-            numLikes={post.likes}
-            img={post.post_image}
-            creator={post.username}
-          />
+          <Post key={post.id} post={post} handleClick={handleLikePost} />
         ))}
       </div>
     </div>

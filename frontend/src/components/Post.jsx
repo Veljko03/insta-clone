@@ -1,29 +1,27 @@
 import "./components.css";
+import { useNavigate } from "react-router-dom";
 
-const Post = ({
-  img,
-  username,
-  createdTime,
-  content,
-  numLikes,
-  numComments,
-  creator,
-  handleClick,
-}) => {
+const Post = ({ post, handleClick }) => {
+  const navigate = useNavigate();
+  const openPost = () => {
+    const id = post.id;
+    navigate(`/post/${id}`);
+  };
+
   return (
-    <div onClick={handleClick} className="post">
+    <div onClick={openPost} className="post">
       <div className="postTop">
         <p>P</p>
-        <p>{username}</p>
+        <p>aa</p>
         <p>vreme</p>
-        <p>{creator}</p>
+        <p>{post.username}</p>
       </div>
       <div className="postContent">
-        <p>{content}</p>
+        <p>{post.content}</p>
       </div>
       <div className="postLike">
-        <p>Like {numLikes} </p>
-        <p>Comment {numComments}</p>
+        <button onClick={() => handleClick(post.id)}>{post.likes}</button>
+        <p>Comment {post.comments}</p>
       </div>
     </div>
   );

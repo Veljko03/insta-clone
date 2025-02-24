@@ -4,6 +4,8 @@ import SignPage from "./public/Sign-in";
 import HomePage from "./pages/Home";
 import CreatePage from "./pages/Create";
 import UsersPage from "./pages/Users";
+import LikesPage from "./pages/Likes";
+import SinglePost from "./pages/SinglePost";
 
 const routes = [
   {
@@ -13,6 +15,8 @@ const routes = [
       { index: true, element: <HomePage /> },
       { path: "/create", element: <CreatePage /> },
       { path: "/users", element: <UsersPage /> },
+      { path: "/liked-posts", element: <LikesPage /> },
+      { path: "/post/:id", element: <SinglePost /> },
     ],
   },
   {
