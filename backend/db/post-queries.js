@@ -1,15 +1,5 @@
 const pool = require("./pool");
 
-const getUsers = async () => {
-  const result = await pool.query("SELECT * FROM users");
-  return result.rows;
-};
-
-const getUserById = async (id) => {
-  const user = await pool.query("SELECT * FROM users WHERE id=$1", [id]);
-  return user.rowCount;
-};
-
 const createNewPost = async (constent, userID, photo) => {
   const result = await pool.query(
     "INSERT INTO posts (content,user_id,post_image) VALUES ($1,$2,$3) RETURNING *",
@@ -26,8 +16,18 @@ const getAllPosts = async () => {
 };
 
 const getPostById = async (postId) => {
-  const post = await pool.query("SELECT * FROM posts WHERE id =$1", [postId]);
+  const post = await pool.query(
+    "SELECT p.* ,COUNT(l.id) as likes  FROM posts p  LEFT JOIN post_likes l on p.id=l.post_id  WHERE p.id =$1 GROUP BY p.id ",
+    [postId]
+  );
   return post.rows[0];
+};
+const getPostComments = async (postId) => {
+  const postComments = await pool.query(
+    "SELECT c.* ,u.username,u.id as userID , u.profile_image, COUNT(l.id) as likes FROM comments c INNER JOIN users u on c.user_id= u.id LEFT JOIN comment_likes l on c.id = l.comment_id WHERE c.post_id = $1 GROUP BY c.id,u.id",
+    [postId]
+  );
+  return postComments.rows;
 };
 const deletePostById = async (postId, userId) => {
   const post = await pool.query(
@@ -37,11 +37,19 @@ const deletePostById = async (postId, userId) => {
   return post.rows[0];
 };
 
+const getLikedPosts = async (userID) => {
+  const posts = await pool.query(
+    "SELECT p.* FROM posts p INNER JOIN post_likes pl on p.id=pl.user_id WHERE pl.user_id=$1",
+    [userID]
+  );
+  return posts.rows;
+};
+
 module.exports = {
-  getUsers,
   createNewPost,
-  getUserById,
   getAllPosts,
   getPostById,
   deletePostById,
+  getLikedPosts,
+  getPostComments,
 };

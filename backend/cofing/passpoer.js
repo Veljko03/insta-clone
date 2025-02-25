@@ -12,7 +12,7 @@ const JwtStrategy = require("passport-jwt").Strategy,
   ExtractJwt = require("passport-jwt").ExtractJwt;
 
 const passport = require("passport");
-const { getUserById } = require("../db/post-queries");
+const { getUserById } = require("../db/usersQueries");
 
 const GoogleStrategy = require("passport-google-oauth2").Strategy;
 const opts = {};
@@ -24,9 +24,6 @@ opts.secretOrKey = process.env.SECRET_KEY;
 passport.use(
   new JwtStrategy(opts, async (jwt_payload, done) => {
     try {
-      console.log(jwt_payload, " payload");
-      console.log("usao");
-
       const user = await getUserById(jwt_payload.user.id);
       if (!user) {
         return done(null, false);

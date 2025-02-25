@@ -5,6 +5,7 @@ const {
   fetchAllPosts,
   fetchPostById,
   deletePostById,
+  fetchLikedPosts,
 } = require("../controllers/postController");
 const {
   createNewComment,
@@ -29,11 +30,7 @@ router.get(
   fetchAllPosts
 );
 
-router.get(
-  "/post/:id",
-  passport.authenticate("jwt", { session: false }),
-  fetchPostById
-);
+router.get("/post/:id", fetchPostById);
 
 router.delete(
   "/post/:id",
@@ -82,6 +79,12 @@ router.get(
   "/comment/:id/like",
   passport.authenticate("jwt", { session: false }),
   fetchNumOfCommentLikes
+);
+
+router.post(
+  "/liked-posts",
+  passport.authenticate("jwt", { session: false }),
+  fetchLikedPosts
 );
 
 module.exports = router;

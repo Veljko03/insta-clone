@@ -1,10 +1,11 @@
 const db = require("../db/post-queries");
+const userDb = require("../db/usersQueries");
 
 const createNewPost = async (req, res) => {
   try {
     const { content, userID, photo } = req.body;
 
-    const user = await db.getUserById(userID);
+    const user = await userDb.getUserById(userID);
     if (!user) {
       res.status(400).json({ message: "No user" });
       return;
@@ -26,10 +27,11 @@ const fetchAllPosts = async (req, res) => {
 const fetchPostById = async (req, res) => {
   const postId = req.params.id;
   const post = await db.getPostById(postId);
+  const postComments = await db.getPostComments(postId);
   if (!post) {
     res.status(400).json({ message: "This post does not exists" });
   } else {
-    res.json(post);
+    res.json({ ...post, postComments });
   }
 };
 
@@ -46,9 +48,23 @@ const deletePostById = async (req, res) => {
   }
 };
 
+const fetchLikedPosts = async (req, res) => {
+  const { userID } = req.body;
+  try {
+    const posts = await db.getLikedPosts(userID);
+
+    res.json(posts);
+  } catch (error) {
+    res
+      .status(400)
+      .json({ message: "somtehing went wrhong fetchhng liked posts" });
+  }
+};
+
 module.exports = {
   createNewPost,
   fetchAllPosts,
   fetchPostById,
   deletePostById,
+  fetchLikedPosts,
 };
