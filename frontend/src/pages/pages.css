@@ -97,3 +97,70 @@
   font-size: 20px;
   color: white;
 }
+.goBack {
+  margin-bottom: 20px;
+  margin-left: 10px;
+}
+.backBtn {
+  background-color: white;
+  color: black;
+  font-weight: 700;
+  border: 0;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.addComment {
+  padding: 20px;
+  margin-top: 20px;
+}
+.commentForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.commentForm input {
+  border: 0;
+  color: white;
+  font-size: 18px;
+  height: 30px;
+}
+.commentForm button {
+  margin-left: auto;
+  background-color: white;
+  color: black;
+  font-weight: 700;
+  border: 0;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.comm {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.comm p {
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+}
+.comm button {
+  background-color: white;
+  color: black;
+  font-weight: 700;
+  border: 0;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 70px;
+}
+.comUser {
+  display: flex;
+  gap: 50px;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+}
