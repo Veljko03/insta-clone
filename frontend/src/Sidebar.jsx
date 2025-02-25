@@ -1,6 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SideBar = () => {
+  const navigate = useNavigate();
+  const logOut = () => {
+    localStorage.setItem("user", null);
+    localStorage.setItem("token", null);
+
+    navigate("/auth/log-in");
+  };
   return (
     <div className="sidebarContainer">
       <div className="iconName">
@@ -27,7 +34,7 @@ const SideBar = () => {
       </div>
       <div className="iconName">
         {" "}
-        <Link to={"/"}>Settings</Link>
+        <Link onClick={logOut}>LogOut</Link>
       </div>
     </div>
   );
