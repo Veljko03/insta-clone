@@ -45,6 +45,7 @@ const UsersPage = () => {
           minLength={1}
           value={findText}
           required
+          placeholder="Search some user..."
           onChange={(e) => setFindText(e.target.value)}
         />
         <button type="submit">Search</button>

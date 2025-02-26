@@ -20,7 +20,7 @@ const Post = ({ post, handleClick }) => {
         <p>{post.content}</p>
       </div>
       <div className="postLike">
-        <button onClick={() => handleClick(post.id)}>{post.likes}</button>
+        <button onClick={(e) => handleClick(post.id, e)}>{post.likes}</button>
         <p>Comment {post.comments}</p>
       </div>
     </div>

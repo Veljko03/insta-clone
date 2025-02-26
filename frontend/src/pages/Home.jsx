@@ -28,7 +28,9 @@ const HomePage = () => {
       .finally(() => setLoading(false));
   }, [rerender]);
 
-  const handleLikePost = (postId) => {
+  const handleLikePost = (postId, event) => {
+    event.stopPropagation();
+
     if (!token || !postId || !user) return;
     const userID = user.id;
 
@@ -42,7 +44,10 @@ const HomePage = () => {
       body: JSON.stringify({ userId: userID, postId: postId }),
     })
       .then((response) => response.json())
-      .then((data) => setRerender((prev) => !prev))
+      .then((data) => {
+        console.log(data);
+        setRerender((prev) => !prev);
+      })
       .catch((error) => console.log(error))
       .finally(() => setLoading(false));
   };
@@ -51,6 +56,7 @@ const HomePage = () => {
   if (error) return <p>A network error was encountered</p>;
 
   if (!posts) return null;
+  console.log(posts);
   return (
     <div className="homeContainer">
       <div className="homeNav">
