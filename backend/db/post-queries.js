@@ -10,7 +10,7 @@ const createNewPost = async (constent, userID, photo) => {
 
 const getAllPosts = async () => {
   const result = await pool.query(
-    "SELECT p.id,p.content,p.post_image,p.created_at,u.username,COUNT(c.id) as comments,COUNT(l.id) as likes FROM posts p INNER JOIN users u on p.user_id=u.id LEFT JOIN comments c on p.id=c.post_id LEFT JOIN post_likes l on p.id=l.post_id GROUP BY p.id,u.username "
+    "SELECT p.*,u.username,COUNT(DISTINCT c.id) as comments,COUNT(DISTINCT l.id) as likes FROM posts p INNER JOIN users u on p.user_id=u.id LEFT JOIN comments c on p.id=c.post_id LEFT JOIN post_likes l on p.id=l.post_id GROUP BY p.id,u.username "
   );
   return result.rows;
 };
@@ -38,10 +38,14 @@ const deletePostById = async (postId, userId) => {
 };
 
 const getLikedPosts = async (userID) => {
+  console.log("usao");
+
   const posts = await pool.query(
-    "SELECT p.* FROM posts p INNER JOIN post_likes pl on p.id=pl.user_id WHERE pl.user_id=$1",
+    "SELECT p.*, u.username, COUNT(DISTINCT c.id) AS comments, (SELECT COUNT(*) FROM post_likes WHERE post_id = p.id) AS likes FROM posts p INNER JOIN post_likes pl ON p.id = pl.post_id INNER JOIN users u ON p.user_id = u.id LEFT JOIN comments c ON p.id = c.post_id WHERE pl.user_id = $1 GROUP BY p.id, u.username",
     [userID]
   );
+  console.log(posts.rows);
+
   return posts.rows;
 };
 

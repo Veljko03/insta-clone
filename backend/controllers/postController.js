@@ -52,6 +52,7 @@ const fetchLikedPosts = async (req, res) => {
   const { userID } = req.body;
   try {
     const posts = await db.getLikedPosts(userID);
+    console.log(posts);
 
     res.json(posts);
   } catch (error) {
