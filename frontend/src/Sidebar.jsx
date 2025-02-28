@@ -30,7 +30,7 @@ const SideBar = () => {
       </div>
       <div className="iconName">
         {" "}
-        <Link to={"/"}>Profile</Link>
+        <Link to={"/view-profile"}>Profile</Link>
       </div>
       <div className="iconName">
         {" "}

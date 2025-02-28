@@ -6,6 +6,7 @@ import CreatePage from "./pages/Create";
 import UsersPage from "./pages/Users";
 import LikesPage from "./pages/Likes";
 import SinglePost from "./pages/SinglePost";
+import ProfilePage from "./pages/Profile";
 
 const routes = [
   {
@@ -17,6 +18,7 @@ const routes = [
       { path: "/users", element: <UsersPage /> },
       { path: "/liked-posts", element: <LikesPage /> },
       { path: "/post/:id", element: <SinglePost /> },
+      { path: "/view-profile", element: <ProfilePage /> },
     ],
   },
   {

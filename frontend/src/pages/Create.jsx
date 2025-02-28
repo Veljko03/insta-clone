@@ -43,6 +43,11 @@ const CreatePage = () => {
 
   return (
     <div className="homeContainer">
+      <div className="goBack">
+        <button className="backBtn" onClick={() => navigate("/")}>
+          Go back
+        </button>
+      </div>
       <form className="postForm" action="" onSubmit={handlePostAdd}>
         <textarea
           type="text"

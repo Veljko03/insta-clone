@@ -39,6 +39,11 @@ const UsersPage = () => {
 
   return (
     <div className="homeContainer">
+      <div className="goBack">
+        <button className="backBtn" onClick={() => navigate("/")}>
+          Go back
+        </button>
+      </div>
       <form className="userSearchForm" onSubmit={handleUsersSearch} action="">
         <input
           type="text"

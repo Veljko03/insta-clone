@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./pages.css";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useNavigate } from "react-router-dom";
 import Post from "../components/Post";
 
 const LikesPage = () => {
@@ -8,7 +8,7 @@ const LikesPage = () => {
   const [token, user] = useOutletContext();
   const [rerender, setRerender] = useState(false);
   const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (!token || !user) return;
     const userID = user.id;
@@ -61,6 +61,11 @@ const LikesPage = () => {
   }
   return (
     <div className="homeContainer">
+      <div className="goBack">
+        <button className="backBtn" onClick={() => navigate("/")}>
+          Go back
+        </button>
+      </div>
       <div className="posts">
         {posts.map((post) => (
           <Post key={post.id} post={post} handleClick={handleLikePost} />
