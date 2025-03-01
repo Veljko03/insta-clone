@@ -6,7 +6,7 @@ const getUsers = async () => {
 };
 
 const getUserById = async (id) => {
-  const user = await pool.query("SELECT * FROM users WHERE id=$1", [id]);
+  const user = await pool.query("SELECT * FROM users WHERE id=$1 ", [id]);
   return user.rowCount;
 };
 
@@ -29,4 +29,33 @@ const getUserByEmail = async (email) => {
     throw error;
   }
 };
-module.exports = { getUsers, getUserById, getUserByEmail, getUserByString };
+
+const getUserProfile = async (userId) => {
+  const result = await pool.query(
+    `
+    SELECT 
+      u.id, 
+      u.username, 
+      u.profile_image, 
+      u.biography, 
+      u.email,
+      COUNT(DISTINCT f1.follower) AS followers, 
+      COUNT(DISTINCT f2.following) AS following
+    FROM users u
+    LEFT JOIN follows f1 ON u.id = f1.following
+    LEFT JOIN follows f2 ON u.id = f2.follower
+    WHERE u.id = $1
+    GROUP BY u.id, u.username, u.profile_image, u.biography, u.email;
+    `,
+    [userId]
+  );
+
+  return result.rows[0];
+};
+module.exports = {
+  getUsers,
+  getUserById,
+  getUserByEmail,
+  getUserByString,
+  getUserProfile,
+};

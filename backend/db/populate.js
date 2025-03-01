@@ -52,7 +52,7 @@ CREATE TABLE follows (
   following INTEGER NOT NULL,
   PRIMARY KEY (follower, following),
   FOREIGN KEY (follower) REFERENCES users (id) ON DELETE CASCADE,
-  FOREIGN KEY (following) REFERENCES posts (id) ON DELETE CASCADE
+  FOREIGN KEY (following) REFERENCES users (id) ON DELETE CASCADE
 );
 
 
