@@ -24,6 +24,7 @@ const fetchUserProgile = async (req, res) => {
     console.log(error);
   }
 };
+
 const followUser = async (req, res) => {};
 
 module.exports = { getAllUsers, searchUsers, fetchUserProgile };

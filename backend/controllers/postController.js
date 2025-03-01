@@ -61,6 +61,17 @@ const fetchLikedPosts = async (req, res) => {
       .json({ message: "somtehing went wrhong fetchhng liked posts" });
   }
 };
+const fetchPostsByUserId = async (req, res) => {
+  const { userId } = req.body;
+  console.log(req.body);
+
+  try {
+    const posts = await db.getPostsByUserId(userId);
+    res.json(posts);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 module.exports = {
   createNewPost,
@@ -68,4 +79,5 @@ module.exports = {
   fetchPostById,
   deletePostById,
   fetchLikedPosts,
+  fetchPostsByUserId,
 };
