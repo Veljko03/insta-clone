@@ -164,3 +164,42 @@
   font-size: 16px;
   font-weight: 700;
 }
+
+.picAndFollow {
+  display: flex;
+}
+.followers {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+  gap: 20px;
+  align-items: center;
+  color: white;
+}
+.profileName {
+  font-size: 22px;
+}
+.f {
+  display: flex;
+  gap: 16px;
+  justify-items: center;
+}
+.fCon1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.bio {
+  margin-top: 80px;
+  padding-left: 20px;
+  color: white;
+}
+.profileCon {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10rem;
+
+  flex: 1;
+  margin-right: 36rem;
+}
