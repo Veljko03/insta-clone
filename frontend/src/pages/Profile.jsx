@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import "./pages.css";
 import { useOutletContext, useParams, useNavigate } from "react-router-dom";
+import Post from "../components/Post";
 
 const ProfilePage = () => {
   const navigate = useNavigate();
   const [token, user] = useOutletContext();
   const [profile, setProfile] = useState(null);
+  const [posts, setPosts] = useState([]);
+  const [rerender, setRerender] = useState(false);
 
   const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
   useEffect(() => {
@@ -25,8 +28,48 @@ const ProfilePage = () => {
         setProfile(data);
       })
       .catch((error) => console.log(error));
-  }, []);
-  if (!profile) return;
+
+    fetch(`${API_URL}/profile`, {
+      method: "post",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ userId: id }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+
+        setPosts(data);
+      })
+      .catch((error) => console.log(error));
+  }, [token, user, rerender]);
+
+  const handleLikePost = (postId, event) => {
+    event.stopPropagation();
+
+    if (!token || !postId || !user) return;
+    const userID = user.id;
+
+    fetch(`${API_URL}/post/like`, {
+      method: "post",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ userId: userID, postId: postId }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setRerender((prev) => !prev);
+      })
+      .catch((error) => console.log(error));
+  };
+  if (!profile) return <p>Loading...</p>;
   console.log(profile);
 
   return (
@@ -51,7 +94,7 @@ const ProfilePage = () => {
                 <p>Following</p>
               </div>
               <div className="fCon1">
-                <p>0</p>
+                <p>{posts.length}</p>
                 <p>Posts</p>
               </div>
             </div>
@@ -61,7 +104,11 @@ const ProfilePage = () => {
           <p>{profile.biography}aaaaaaaaa</p>
         </div>
       </div>
-      <div className="posts"></div>
+      <div className="posts">
+        {posts.map((post) => (
+          <Post key={post.id} post={post} handleClick={handleLikePost} />
+        ))}
+      </div>
     </div>
   );
 };

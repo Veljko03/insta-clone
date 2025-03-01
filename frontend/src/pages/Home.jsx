@@ -55,7 +55,7 @@ const HomePage = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>A network error was encountered</p>;
 
-  if (!posts) return null;
+  if (!posts) return <p>Loading...</p>;
   console.log(posts);
   return (
     <div className="homeContainer">

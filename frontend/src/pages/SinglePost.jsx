@@ -107,7 +107,7 @@ const SinglePost = () => {
       });
   };
 
-  if (!post) return;
+  if (!post) return <p>Loading...</p>;
   const l = post;
   console.log(l);
 
