@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useOutletContext, useParams, useNavigate } from "react-router-dom";
 import Post from "../components/Post";
-
+import "./pages.css";
 const UserByIdPage = () => {
   const { id } = useParams();
   const [token, user] = useOutletContext();
   const [profile, setProfile] = useState(null);
   const [posts, setPosts] = useState([]);
   const [rerender, setRerender] = useState(false);
+
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
 
@@ -97,6 +98,10 @@ const UserByIdPage = () => {
                 <p>{posts.length}</p>
                 <p>Posts</p>
               </div>
+            </div>
+            <div className="followAndChat">
+              <button className="followBtn">Follow</button>
+              <button className="chatBtn">Chat</button>
             </div>
           </div>
         </div>

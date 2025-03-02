@@ -1,15 +1,20 @@
 import "./components.css";
 import { useNavigate } from "react-router-dom";
 
-const Post = ({ post, handleClick }) => {
+const Post = ({ post, handleClick, user }) => {
   const navigate = useNavigate();
   const openPost = () => {
     const id = post.id;
     navigate(`/post/${id}`);
   };
+
   const openUserById = (event) => {
     event.stopPropagation();
-    navigate(`/user/${post.user_id}`);
+    if (user.id == post.user_id) {
+      navigate("/view-profile");
+    } else {
+      navigate(`/user/${post.user_id}`);
+    }
   };
   return (
     <div onClick={openPost} className="post">
