@@ -7,14 +7,17 @@ const Post = ({ post, handleClick }) => {
     const id = post.id;
     navigate(`/post/${id}`);
   };
-
+  const openUserById = (event) => {
+    event.stopPropagation();
+    navigate(`/user/${post.user_id}`);
+  };
   return (
     <div onClick={openPost} className="post">
       <div className="postTop">
         <p>P</p>
         <p>aa</p>
         <p>vreme</p>
-        <p>{post.username}</p>
+        <p onClick={openUserById}>{post.username}</p>
       </div>
       <div className="postContent">
         <p>{post.content}</p>
