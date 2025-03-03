@@ -25,6 +25,27 @@ const fetchUserProgile = async (req, res) => {
   }
 };
 
-const followUser = async (req, res) => {};
+const followUser = async (req, res) => {
+  const { followerId, followingId } = req.body;
+  const isFollowing = await db.searchfollowUser(followerId, followingId);
+  if (isFollowing == 0) {
+    const follow = await db.followUser(followerId, followingId);
+    res.json("followed");
+  } else {
+    const unfollow = await db.unfollowUser(followerId, followingId);
+    res.json("unfollowed");
+  }
+};
+const isFollowing = async (req, res) => {
+  const { followerId, followingId } = req.body;
+  const isFollowing = await db.searchfollowUser(followerId, followingId);
+  res.json(isFollowing);
+};
 
-module.exports = { getAllUsers, searchUsers, fetchUserProgile };
+module.exports = {
+  getAllUsers,
+  searchUsers,
+  fetchUserProgile,
+  followUser,
+  isFollowing,
+};
