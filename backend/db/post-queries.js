@@ -17,7 +17,7 @@ const getAllPosts = async () => {
 
 const getPostById = async (postId) => {
   const post = await pool.query(
-    "SELECT p.* ,COUNT(l.id) as likes  FROM posts p  LEFT JOIN post_likes l on p.id=l.post_id  WHERE p.id =$1 GROUP BY p.id ",
+    "SELECT p.* ,u.username,COUNT(l.id) as likes  FROM posts p  LEFT JOIN post_likes l on p.id=l.post_id INNER JOIN users u on p.user_id=u.id  WHERE p.id =$1 GROUP BY p.id,u.username ",
     [postId]
   );
   return post.rows[0];
