@@ -52,6 +52,20 @@ const getUserProfile = async (userId) => {
 
   return result.rows[0];
 };
+
+const followUser = async (followerId, followingId) => {
+  const searchIfExists = await pool.query(
+    "SELECT * FROM follows WHERE follower=$1 AND following=$2",
+    [followerId, followingId]
+  );
+  console.log(searchIfExists.rowCount);
+  //e sada ovde ako postoje kolone onda nista,
+  // a ako ne postoji pravim i radim ovaj insert requset
+  // const result = await pool.query(
+  //   "INSERT INTO follows (follower,following) VALUES ($1,$2) RETURNING *",
+  //   [followerId, followingId]
+  // );
+};
 module.exports = {
   getUsers,
   getUserById,

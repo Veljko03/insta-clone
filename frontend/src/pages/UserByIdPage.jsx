@@ -8,6 +8,7 @@ const UserByIdPage = () => {
   const [profile, setProfile] = useState(null);
   const [posts, setPosts] = useState([]);
   const [rerender, setRerender] = useState(false);
+  const [followingTxt, setFollowingTxt] = useState("follow");
 
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
@@ -48,6 +49,37 @@ const UserByIdPage = () => {
       .catch((error) => console.log(error));
   }, [token, user, rerender]);
 
+  useEffect(() => {
+    if (user && profile) {
+      const followerId = user.id;
+      const followingId = profile.id;
+      console.log("usao");
+
+      fetch(`${API_URL}/user/isFollowing`, {
+        method: "post",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          followerId: followerId,
+          followingId: followingId,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          if (data == 1) {
+            setFollowingTxt("Unfollow");
+          } else {
+            setFollowingTxt("Follow");
+          }
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [profile]);
+
   const handleLikePost = (postId, event) => {
     event.stopPropagation();
 
@@ -67,6 +99,38 @@ const UserByIdPage = () => {
       .then((data) => {
         console.log(data);
         setRerender((prev) => !prev);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const handleFollow = () => {
+    if (!user || !profile) {
+      alert("something missing");
+      return;
+    }
+
+    const followerId = user.id;
+    const followingId = profile.id;
+
+    fetch(`${API_URL}/user/follow`, {
+      method: "post",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        followerId: followerId,
+        followingId: followingId,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data == "unfollowed") {
+          setFollowingTxt("follow");
+        } else {
+          setFollowingTxt("Unfollow");
+        }
       })
       .catch((error) => console.log(error));
   };
@@ -100,7 +164,9 @@ const UserByIdPage = () => {
               </div>
             </div>
             <div className="followAndChat">
-              <button className="followBtn">Follow</button>
+              <button className="followBtn" onClick={handleFollow}>
+                {followingTxt}
+              </button>
               <button className="chatBtn">Chat</button>
             </div>
           </div>
