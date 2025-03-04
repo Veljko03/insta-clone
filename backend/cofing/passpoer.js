@@ -74,6 +74,10 @@ passport.use(
 
           user = { token, created };
         }
+        const token = jwt.sign({ user }, process.env.SECRET_KEY, {
+          expiresIn: "24h",
+        });
+        user = { token, user };
 
         return done(null, user);
       } catch (err) {

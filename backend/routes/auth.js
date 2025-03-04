@@ -24,13 +24,13 @@ authRouter.get(
 authRouter.get(
   "/oauth2/redirect/google",
   passport.authenticate("google", {
-    // successRedirect: `${process.env.URL}`,
-    // failureRedirect: `${process.env.URL}/auth/log-in`,
     session: false,
   }),
   (req, res) => {
     const user = req.user;
-    res.redirect(`${process.env.URL}`);
+    let encodedObject = encodeURIComponent(JSON.stringify(user));
+
+    res.redirect(`${process.env.URL}/auth/log-in?user=${encodedObject}`);
   }
 );
 
