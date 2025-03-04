@@ -24,6 +24,7 @@ const SinglePost = () => {
       .then((data) => setPost(data))
       .catch((error) => console.log(error));
   }, [rerender]);
+  console.log(post);
 
   const handleLikePost = (postId) => {
     if (!token || !postId || !user) return;
@@ -106,10 +107,30 @@ const SinglePost = () => {
         alert(err.message);
       });
   };
-
+  const openUserById = (event) => {
+    event.stopPropagation();
+    if (user.id == post.user_id) {
+      navigate("/view-profile");
+    } else {
+      navigate(`/user/${post.user_id}`);
+    }
+  };
   if (!post) return <p>Loading...</p>;
   const l = post;
   console.log(l);
+  function timeAgo(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const seconds = Math.floor((now - date) / 1000);
+
+    if (seconds < 60) return `${seconds}s ago`;
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `${minutes}m ago`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    return `${days}d ago`;
+  }
 
   return (
     <div className="homeContainer">
@@ -118,7 +139,7 @@ const SinglePost = () => {
           Go back
         </button>
       </div>
-      <Post post={post} handleClick={handleLikePost} />
+      <Post post={post} user={user} handleClick={handleLikePost} />
       <div className="addComment">
         <form className="commentForm" onSubmit={handleAddComment} action="">
           <input
@@ -138,7 +159,10 @@ const SinglePost = () => {
           <div key={comment.id} className="comm">
             <div className="comUser">
               <p>IMG</p>
-              <p>{comment.username}</p>
+              <p className="userLink" onClick={openUserById}>
+                {comment.username}
+              </p>
+              <span className="time">{timeAgo(comment.created_at)}</span>
             </div>
             <p>{comment.content}</p>
             <button onClick={() => likeComment(comment.id)}>

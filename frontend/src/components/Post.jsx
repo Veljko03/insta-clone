@@ -16,13 +16,31 @@ const Post = ({ post, handleClick, user }) => {
       navigate(`/user/${post.user_id}`);
     }
   };
+  function timeAgo(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const seconds = Math.floor((now - date) / 1000);
+
+    if (seconds < 60) return `${seconds}s ago`;
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `${minutes}m ago`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    return `${days}d ago`;
+  }
+
+  const time = timeAgo(post.created_at);
+
   return (
     <div onClick={openPost} className="post">
       <div className="postTop">
         <p>P</p>
-        <p>aa</p>
-        <p>vreme</p>
-        <p onClick={openUserById}>{post.username}</p>
+
+        <p className="userLink" onClick={openUserById}>
+          {post.username}
+        </p>
+        <p className="time">{time}</p>
       </div>
       <div className="postContent">
         <p>{post.content}</p>

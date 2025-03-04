@@ -68,7 +68,12 @@ const LikesPage = () => {
       </div>
       <div className="posts">
         {posts.map((post) => (
-          <Post key={post.id} post={post} handleClick={handleLikePost} />
+          <Post
+            key={post.id}
+            user={user}
+            post={post}
+            handleClick={handleLikePost}
+          />
         ))}
       </div>
     </div>

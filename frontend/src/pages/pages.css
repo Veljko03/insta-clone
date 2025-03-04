@@ -228,3 +228,12 @@
   border: 0;
   cursor: pointer;
 }
+
+.userLink:hover {
+  cursor: pointer;
+  color: #ffd33d;
+  border-bottom: 1px solid #ffd33d;
+}
+.time {
+  color: #767676;
+}
