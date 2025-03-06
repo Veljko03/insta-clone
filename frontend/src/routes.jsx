@@ -8,6 +8,7 @@ import LikesPage from "./pages/Likes";
 import SinglePost from "./pages/SinglePost";
 import ProfilePage from "./pages/Profile";
 import UserByIdPage from "./pages/UserByIdPage";
+import ChatPage from "./pages/Message";
 
 const routes = [
   {
@@ -21,6 +22,7 @@ const routes = [
       { path: "/post/:id", element: <SinglePost /> },
       { path: "/view-profile", element: <ProfilePage /> },
       { path: "/user/:id", element: <UserByIdPage /> },
+      { path: "/chat", element: <ChatPage /> },
     ],
   },
   {

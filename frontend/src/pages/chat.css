@@ -1,0 +1,7 @@
+.chatContainer {
+  display: flex;
+  border: 1px solid wheat;
+  margin-right: 22rem;
+  height: 600px;
+  flex-grow: 1;
+}

@@ -11,14 +11,16 @@ const LogPage = () => {
 
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   fetch(`${API_URL}/auth/oauth2/redirect/google`, {
-  //     method: "get",
-  //     mode: "cors",
-  //   })
-  //     .then((respose) => respose.json())
-  //     .then((data) => console.log(data));
-  // }, []);
+  useEffect(() => {
+    let queryString = window.location.search;
+    let objectString = queryString.split("=")[1];
+    if (objectString) {
+      let decodedObject = JSON.parse(decodeURIComponent(objectString));
+      localStorage.setItem("token", decodedObject.token);
+      localStorage.setItem("user", JSON.stringify(decodedObject.user));
+      navigate("/");
+    }
+  }, []);
 
   const handleLogIn = (e) => {
     e.preventDefault();
@@ -78,7 +80,7 @@ const LogPage = () => {
           <Button label={"Log up"} />
         </form>
         <div className="section3">
-          <a href="http://localhost:3000/auth/google">Google</a>
+          <a href={`${API_URL}/auth/google`}>Google Login</a>
           <h1>Don't have an account?</h1>
           <Link to={"/auth/sign-in"}>Sign up</Link>
         </div>

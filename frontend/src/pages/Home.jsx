@@ -13,6 +13,13 @@ const HomePage = () => {
   const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
 
   useEffect(() => {
+    fetch(`${API_URL}`, {
+      method: "get",
+      mode: "cors",
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => setError(error));
     if (!token) return;
 
     fetch(`${API_URL}/post`, {

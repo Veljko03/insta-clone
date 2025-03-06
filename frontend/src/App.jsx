@@ -3,10 +3,12 @@ import "./index.css";
 import SideBar from "./Sidebar";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
+import { socket } from "./socket";
 function App() {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const navigate = useNavigate();
+  const [isConnected, setIsConnected] = useState(socket.connected);
 
   const isTokenExpired = (token) => {
     if (!token) return true;
@@ -24,6 +26,14 @@ function App() {
     const storedToken = localStorage.getItem("token");
     const result = isTokenExpired(storedToken);
 
+    function onConnect() {
+      setIsConnected(true);
+    }
+
+    function onDisconnect() {
+      setIsConnected(false);
+    }
+
     if (sotredUser && storedToken && !result) {
       console.log(result);
 
@@ -32,6 +42,15 @@ function App() {
     } else {
       navigate("/auth/log-in");
     }
+
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
+    console.log(isConnected, " socket");
+
+    return () => {
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
+    };
   }, []);
 
   if (!user || !token) return null;
