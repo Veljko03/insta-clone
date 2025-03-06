@@ -94,8 +94,6 @@ router.post(
   fetchPostsByUserId
 );
 
-router.get("/", (req, res) => {
-  console.log(req);
-});
+router.get("/", (req, res) => {});
 
 module.exports = router;

@@ -11,7 +11,6 @@ const createNewPost = async (req, res) => {
       return;
     }
     const post = await db.createNewPost(content, userID, photo);
-    console.log(post);
 
     res.json(post);
   } catch (error) {
@@ -63,7 +62,6 @@ const fetchLikedPosts = async (req, res) => {
 };
 const fetchPostsByUserId = async (req, res) => {
   const { userId } = req.body;
-  console.log(req.body);
 
   try {
     const posts = await db.getPostsByUserId(userId);
