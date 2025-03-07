@@ -167,7 +167,12 @@ const UserByIdPage = () => {
               <button className="followBtn" onClick={handleFollow}>
                 {followingTxt}
               </button>
-              <button className="chatBtn">Chat</button>
+              <button
+                className="chatBtn"
+                onClick={() => navigate(`/chat/${profile.id}`)}
+              >
+                Chat
+              </button>
             </div>
           </div>
         </div>
