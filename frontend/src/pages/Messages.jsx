@@ -9,6 +9,7 @@ const MessagesPage = () => {
   const navigate = useNavigate();
   const params = useParams();
   const listRef = useRef(null);
+  const [profile, setProfile] = useState(null);
   useEffect(() => {
     listRef.current?.lastElementChild?.scrollIntoView();
   }, [messages]);
@@ -24,6 +25,8 @@ const MessagesPage = () => {
       socket.off("chat-message", handleChatMessage);
     };
   }, []);
+  const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
+
   useEffect(() => {
     const loadMessages = () => {
       socket.emit("load-messages", {
@@ -31,12 +34,26 @@ const MessagesPage = () => {
         receiverId: params.id,
       });
     };
+    fetch(`${API_URL}/user/${params.id}`, {
+      method: "get",
+      mode: "cors",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
 
+        setProfile(data);
+      })
+      .catch((error) => console.log(error));
     loadMessages();
 
     socket.on("load-messages", (messages) => {
       setMessages(messages);
     });
+    fetch(``);
 
     return () => {
       socket.off("load-messages");
@@ -53,13 +70,15 @@ const MessagesPage = () => {
 
     setMsgTxt("");
   };
-  console.log(messages);
+
+  if (!profile) return <h1>User Missing</h1>;
+  console.log(profile);
 
   return (
     <div className="msg">
       <div className="topMessagePart">
         <button onClick={() => navigate("/chat")}>Go back</button>
-        <p>USERRRRRRRR</p>
+        <p className="uname">{profile.username}</p>
       </div>
       <div className="messagesContainer">
         <div className="messages">

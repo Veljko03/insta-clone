@@ -1,21 +1,57 @@
 .chatContainer {
   display: flex;
+  flex-direction: column;
   border: 1px solid wheat;
   margin-right: 22rem;
   height: 600px;
   flex-grow: 1;
 }
+.cahtUser {
+  display: flex;
+  gap: 36px;
+  cursor: pointer;
+  align-items: center;
+  height: 80px;
+  padding-left: 20px;
+}
+.cahtUser:hover {
+  background-color: #3a3f45;
+}
+.cahtUser * {
+  color: inherit;
+  background-color: transparent;
+}
+.nameContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: white;
+  font-size: 18px;
+}
+.con {
+  color: #b3b1b1;
+}
+
 .messagesContainer {
   display: flex;
   flex-direction: column;
   width: 1000px;
   height: 600px;
   align-self: center;
-  background-color: #2a2e30;
+  /* background-color: #2a2e30; */
+  background-color: #3a3f45;
   border-radius: 12px;
   box-shadow: 4px 4px 8px black;
 }
-
+.uname {
+  font-size: 22px;
+  color: white;
+  font-weight: 700;
+}
+/* .messages,
+.messageList {
+  background-color: #3a3f45;
+} */
 .sendMessage {
   margin-top: auto;
   margin-bottom: 4px;
