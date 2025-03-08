@@ -1,3 +1,4 @@
+const { userMessages } = require("../db/messageQueries");
 const db = require("../db/post-queries");
 const userDb = require("../db/usersQueries");
 
@@ -71,6 +72,16 @@ const fetchPostsByUserId = async (req, res) => {
   }
 };
 
+const fetcgUsersChat = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const chats = await userMessages(id);
+    res.json(chats);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   createNewPost,
   fetchAllPosts,
@@ -78,4 +89,5 @@ module.exports = {
   deletePostById,
   fetchLikedPosts,
   fetchPostsByUserId,
+  fetcgUsersChat,
 };

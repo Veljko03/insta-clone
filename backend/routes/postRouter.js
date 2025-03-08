@@ -7,6 +7,7 @@ const {
   deletePostById,
   fetchLikedPosts,
   fetchPostsByUserId,
+  fetcgUsersChat,
 } = require("../controllers/postController");
 const {
   createNewComment,
@@ -93,7 +94,11 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   fetchPostsByUserId
 );
-
 router.get("/", (req, res) => {});
+router.get(
+  "/chat/:id",
+  passport.authenticate("jwt", { session: false }),
+  fetcgUsersChat
+);
 
 module.exports = router;
