@@ -1,22 +1,59 @@
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { socket } from "../socket";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./chat.css";
 const MessagesPage = () => {
   const [msgText, setMsgTxt] = useState("");
   const [token, user] = useOutletContext();
-  const [messages, setMessages] = useState(null);
+  const [messages, setMessages] = useState([]);
   const navigate = useNavigate();
+  const params = useParams();
+  const listRef = useRef(null);
+  useEffect(() => {
+    listRef.current?.lastElementChild?.scrollIntoView();
+  }, [messages]);
+  useEffect(() => {
+    const handleChatMessage = (mess) => {
+      console.log(mess);
+      setMessages((prevMessages) => [...prevMessages, mess]);
+    };
+
+    socket.on("chat-message", handleChatMessage);
+
+    return () => {
+      socket.off("chat-message", handleChatMessage);
+    };
+  }, []);
+  useEffect(() => {
+    const loadMessages = () => {
+      socket.emit("load-messages", {
+        senderId: user.id,
+        receiverId: params.id,
+      });
+    };
+
+    loadMessages();
+
+    socket.on("load-messages", (messages) => {
+      setMessages(messages);
+    });
+
+    return () => {
+      socket.off("load-messages");
+    };
+  }, [user.id, params.id]);
 
   const sendMessage = (e) => {
     e.preventDefault();
-    // const userId = user.id;
-    // const message = { sender: userId, reciver: 3, msg: msgText };
-    // socket.emit("chat-message", message);
-    // console.log("prosao");
+    const userId = user.id;
+    const reiverId = params.id;
+    const message = { msg: msgText, sender: userId, reciver: reiverId };
 
-    // setMsgTxt("");
+    socket.emit("chat-message", message);
+
+    setMsgTxt("");
   };
+  console.log(messages);
 
   return (
     <div className="msg">
@@ -26,22 +63,19 @@ const MessagesPage = () => {
       </div>
       <div className="messagesContainer">
         <div className="messages">
-          <ul
-            className="messageList"
-            // ref={listRef}
-          >
-            {messages?.map((msg, index) => (
+          <ul className="messageList" ref={listRef}>
+            {messages.map((msg, index) => (
               <li
                 key={index}
                 className={
-                  msg.username === user.userName
+                  msg.sender_id === user.id
                     ? "message sent"
                     : "message received"
                 }
               >
-                <span className="username">{msg.username}</span>
+                <span className="username">{msg.sender_name}</span>
                 <p className="messageContent">{msg.content}</p>
-                <small className="timestamp">{msg.timestamp}</small>
+                <small className="timestamp">{msg.created_At}</small>
               </li>
             ))}
           </ul>

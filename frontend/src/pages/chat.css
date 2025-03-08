@@ -33,6 +33,7 @@
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 14px;
+  color: white;
 }
 
 .sendButton {
@@ -81,6 +82,10 @@
 .message.received {
   background-color: #eaeaea;
 }
+.message.sent *,
+.message.received * {
+  background-color: inherit;
+}
 
 .username {
   font-size: 12px;
@@ -96,4 +101,5 @@
 .topMessagePart {
   display: flex;
   gap: 30px;
+  margin-bottom: 20px;
 }
