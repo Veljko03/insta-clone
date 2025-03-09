@@ -17,14 +17,23 @@ const ChatPage = () => {
 
       allMessages.forEach((element) => {
         if (element.sender_id == currUserId) {
-          if (uniqueUser.includes(element.receiver_id)) return;
+          if (
+            uniqueUser.includes(element.receiver_id) ||
+            uniqueUser.includes(element.sender_id)
+          )
+            return;
           uniqueUser.push(element.receiver_id);
           newArr.push(element);
         } else if (element.receiver_id == currUserId) {
-          if (uniqueUser.includes(element.sender_id)) return;
+          if (
+            uniqueUser.includes(element.sender_id) ||
+            uniqueUser.includes(element.receiver_id)
+          )
+            return;
           uniqueUser.push(element.sender_id);
           newArr.push(element);
         }
+        console.log(uniqueUser);
       });
       setConversations(newArr);
     }

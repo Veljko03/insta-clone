@@ -6,20 +6,12 @@ import { useOutletContext } from "react-router-dom";
 const HomePage = () => {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [token, user] = useOutletContext();
   const [rerender, setRerender] = useState(false);
 
   const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
 
   useEffect(() => {
-    fetch(`${API_URL}`, {
-      method: "get",
-      mode: "cors",
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => setError(error));
     if (!token) return;
 
     fetch(`${API_URL}/post`, {
@@ -31,8 +23,10 @@ const HomePage = () => {
     })
       .then((response) => response.json())
       .then((data) => setPosts(data))
-      .catch((error) => setError(error))
-      .finally(() => setLoading(false));
+      .catch((error) => {
+        setError(error);
+        console.log(error);
+      });
   }, [rerender]);
 
   const handleLikePost = (postId, event) => {
@@ -55,11 +49,10 @@ const HomePage = () => {
         console.log(data);
         setRerender((prev) => !prev);
       })
-      .catch((error) => console.log(error))
-      .finally(() => setLoading(false));
+      .catch((error) => console.log(error));
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (posts.length == 0) return <p>Loading...</p>;
   if (error) return <p>A network error was encountered</p>;
 
   if (!posts) return <p>Loading...</p>;
