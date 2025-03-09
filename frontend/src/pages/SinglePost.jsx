@@ -10,9 +10,13 @@ const SinglePost = () => {
   const [rerender, setRerender] = useState(false);
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
+  console.log("id od usera", user.id);
+
   useEffect(() => {
     if (!token) return;
     const id = params.id;
+    console.log("id od posta", id);
+
     fetch(`${API_URL}/post/${id}`, {
       method: "get",
       mode: "cors",
@@ -21,14 +25,20 @@ const SinglePost = () => {
       },
     })
       .then((response) => response.json())
-      .then((data) => setPost(data))
+      .then((data) => {
+        console.log(data);
+        setPost(data);
+      })
       .catch((error) => console.log(error));
   }, [rerender]);
-  console.log(post);
 
-  const handleLikePost = (postId) => {
-    if (!token || !postId || !user) return;
+  const handleLikePost = (postId, event) => {
+    event.stopPropagation();
+    if (!postId) console.log("nema post id");
+
+    if (!token || !user) return;
     const userID = user.id;
+    console.log("ovo je post id ", postId);
 
     fetch(`${API_URL}/post/like`, {
       method: "post",
@@ -40,7 +50,10 @@ const SinglePost = () => {
       body: JSON.stringify({ userId: userID, postId: postId }),
     })
       .then((response) => response.json())
-      .then((data) => setRerender((prev) => !prev))
+      .then((data) => {
+        console.log(data);
+        setRerender((prev) => !prev);
+      })
       .catch((error) => console.log(error));
   };
 
@@ -116,8 +129,8 @@ const SinglePost = () => {
     }
   };
   if (!post) return <p>Loading...</p>;
-  const l = post;
-  console.log(l);
+  console.log(post);
+
   function timeAgo(dateString) {
     const date = new Date(dateString);
     const now = new Date();

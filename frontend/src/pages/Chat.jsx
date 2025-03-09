@@ -89,7 +89,7 @@ const ChatPage = () => {
         >
           PIC
           <div className="nameContent">
-            <p>{chat.username}</p>
+            <p>{chat.other_user_username}</p>
             <p className="con">{chat.content}</p>
           </div>
         </div>
