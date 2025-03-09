@@ -50,14 +50,17 @@ const userMessages = async (userId) => {
         WHEN m.sender_id = $1 THEN m.receiver_id 
         ELSE m.sender_id 
     END AS other_user_id,
-    u.username,
-    u.profile_image
-    
+    u.username AS other_user_username,
+    u.profile_image AS other_user_profile_image
 FROM messages m
-INNER JOIN users u
-    ON (m.sender_id = u.id OR m.receiver_id = u.id)
-WHERE m.sender_id = $1 OR m.receiver_id = $1
-ORDER BY m.created_at DESC;
+INNER JOIN users u ON 
+    (m.sender_id = u.id OR m.receiver_id = u.id)
+WHERE (m.sender_id = $1 OR m.receiver_id = $1)
+  AND (
+    (m.sender_id = $1 AND m.receiver_id != $1) OR 
+    (m.receiver_id = $1 AND m.sender_id != $1)
+  )
+ORDER BY m.created_at DESC
 
 `,
     [userId]

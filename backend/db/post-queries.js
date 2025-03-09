@@ -16,10 +16,33 @@ const getAllPosts = async () => {
 };
 
 const getPostById = async (postId) => {
+  console.log(postId);
+
   const post = await pool.query(
-    "SELECT p.* ,u.username,u.id,COUNT(l.id) as likes  FROM posts p  LEFT JOIN post_likes l on p.id=l.post_id INNER JOIN users u on p.user_id=u.id  WHERE p.id =$1 GROUP BY p.id,u.username,u.id ",
+    `SELECT 
+    p.id ,
+    p.content,
+    p.post_image,
+    p.created_at,
+    u.id AS author_id,
+    u.username ,
+    u.profile_image ,
+    COUNT(l.id) AS likes
+FROM 
+    posts p
+INNER JOIN 
+    users u ON p.user_id = u.id
+LEFT JOIN 
+    post_likes l ON p.id = l.post_id
+WHERE 
+    p.id = $1
+GROUP BY 
+    p.id, u.id, u.username, u.profile_image;
+`,
     [postId]
   );
+  console.log(post.rows[0]);
+
   return post.rows[0];
 };
 const getPostComments = async (postId) => {

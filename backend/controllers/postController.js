@@ -26,6 +26,8 @@ const fetchAllPosts = async (req, res) => {
 
 const fetchPostById = async (req, res) => {
   const postId = req.params.id;
+  console.log(postId);
+
   const post = await db.getPostById(postId);
   const postComments = await db.getPostComments(postId);
   if (!post) {
