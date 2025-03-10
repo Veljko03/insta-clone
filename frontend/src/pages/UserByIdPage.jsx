@@ -131,6 +131,7 @@ const UserByIdPage = () => {
         } else {
           setFollowingTxt("Unfollow");
         }
+        setRerender((prev) => !prev);
       })
       .catch((error) => console.log(error));
   };

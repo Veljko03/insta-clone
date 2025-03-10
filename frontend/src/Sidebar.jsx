@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-
+import { CiLogout } from "react-icons/ci";
 const SideBar = () => {
   const navigate = useNavigate();
   const logOut = () => {

@@ -1,5 +1,6 @@
 import "./components.css";
 import { useNavigate } from "react-router-dom";
+import { FaCommentDots, FaHeart } from "react-icons/fa";
 
 const Post = ({ post, handleClick, user }) => {
   const navigate = useNavigate();
@@ -46,8 +47,15 @@ const Post = ({ post, handleClick, user }) => {
         <p>{post.content}</p>
       </div>
       <div className="postLike">
-        <button onClick={(e) => handleClick(post.id, e)}>{post.likes}</button>
-        <p>Comment {post.comments}</p>
+        <div className="sub">
+          <FaHeart onClick={(e) => handleClick(post.id, e)} />
+          <p>{post.likes}</p>
+        </div>
+        <div className="sub">
+          {" "}
+          <FaCommentDots />
+          <p> {post.comments}</p>
+        </div>
       </div>
     </div>
   );

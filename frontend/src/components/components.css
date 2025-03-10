@@ -89,3 +89,11 @@
 .time {
   color: #767676;
 }
+.postLike {
+  display: flex;
+  gap: 40px;
+}
+.sub {
+  display: flex;
+  gap: 4px;
+}

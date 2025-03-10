@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useOutletContext, useParams, useNavigate } from "react-router-dom";
 import Post from "../components/Post";
+import { FaHeart } from "react-icons/fa";
+
 import "./pages.css";
 const SinglePost = () => {
   const [post, setPost] = useState(null);
@@ -178,9 +180,16 @@ const SinglePost = () => {
               <span className="time">{timeAgo(comment.created_at)}</span>
             </div>
             <p>{comment.content}</p>
-            <button onClick={() => likeComment(comment.id)}>
-              {comment.likes}
-            </button>
+            <div
+              style={{ display: "flex", gap: "4px", alignContent: "center" }}
+              className="commlikes"
+            >
+              <FaHeart
+                style={{ color: "white" }}
+                onClick={() => likeComment(comment.id)}
+              />
+              <p>{comment.likes}</p>
+            </div>
           </div>
         ))}
       </div>
