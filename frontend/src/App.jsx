@@ -4,6 +4,13 @@ import SideBar from "./Sidebar";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { socket } from "./socket";
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = "https://lhohuityiifhagdcinmp.supabase.co";
+const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
 function App() {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
@@ -62,7 +69,7 @@ function App() {
       </div>
       <div className="content">
         <SideBar />
-        <Outlet context={[token, user]} />
+        <Outlet context={[token, user, supabase]} />
       </div>
     </div>
   );

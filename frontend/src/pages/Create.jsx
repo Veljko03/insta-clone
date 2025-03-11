@@ -4,17 +4,47 @@ import { useOutletContext, useNavigate } from "react-router-dom";
 
 const CreatePage = () => {
   const [content, setContent] = useState("");
-  const [photo, setPhoto] = useState("");
+  const [photo, setPhoto] = useState(null);
   const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
-  const [token, user] = useOutletContext();
+  const [token, user, supabase] = useOutletContext();
   const navigate = useNavigate();
-  const handlePostAdd = (e) => {
+
+  const uploadImage = async (file) => {
+    try {
+      console.log(file);
+      if (!user) return;
+      const fileName = `${Date.now()}_${file.name}`;
+
+      const { data, error } = await supabase.storage
+        .from("pics")
+        .upload(user.id + "/" + file.name, file);
+
+      if (error) throw error;
+      console.log("Uploaded image:", data);
+      return data.path; // Vraća putanju slike
+    } catch (error) {
+      console.error("Image upload failed:", error.message);
+      alert("Failed to upload image.");
+      return null;
+    }
+  };
+
+  const handlePostAdd = async (e) => {
     e.preventDefault();
     if (content == "") {
       alert("Please type something first");
     }
     const userID = user.id;
-    const toSend = { content, photo, userID };
+
+    let photoPath = null;
+
+    if (photo) {
+      photoPath = await uploadImage(photo);
+      if (!photoPath) return;
+    }
+    console.log("photo path", photoPath);
+
+    const toSend = { content, photo: photoPath, userID };
     fetch(`${API_URL}/post`, {
       method: "post",
       mode: "cors",
@@ -34,6 +64,7 @@ const CreatePage = () => {
         if (data) {
           setContent("");
           navigate("/");
+          setPhoto(null);
         }
       })
       .catch((err) => {
@@ -54,6 +85,11 @@ const CreatePage = () => {
           onChange={(e) => setContent(e.target.value)}
           value={content}
           placeholder="Share your toughts..."
+        />
+        <input
+          type="file"
+          accept="image/png, image/jpeg"
+          onChange={(e) => setPhoto(e.target.files[0])}
         />
         <button type="submit">Post</button>
       </form>
