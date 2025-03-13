@@ -77,7 +77,17 @@ const MessagesPage = () => {
   return (
     <div className="msg">
       <div className="topMessagePart">
-        <button onClick={() => navigate("/chat")}>Go back</button>
+        <button
+          style={{
+            backgroundColor: "white",
+            borderRadius: "8px",
+            border: "0",
+            color: "black",
+          }}
+          onClick={() => navigate("/chat")}
+        >
+          Go back
+        </button>
         <p className="uname">{profile.username}</p>
       </div>
       <div className="messagesContainer">

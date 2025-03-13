@@ -1,12 +1,13 @@
 import { useState } from "react";
 import "./pages.css";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 const UsersPage = () => {
   const [findText, setFindText] = useState("");
   const [users, setUsers] = useState([]);
   const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
   const [token] = useOutletContext();
+  const navigate = useNavigate();
 
   const handleUsersSearch = (e) => {
     e.preventDefault();
@@ -59,7 +60,11 @@ const UsersPage = () => {
         {users.length > 0 &&
           users.map((user) => {
             return (
-              <div key={user.id} className="userS">
+              <div
+                key={user.id}
+                onClick={() => navigate(`/user/${user.id}`)}
+                className="userS"
+              >
                 <div className="userPic">pic</div>
                 <div className="nameAndMail">
                   <p>@{user.username} </p>
