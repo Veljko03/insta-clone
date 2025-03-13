@@ -43,9 +43,9 @@ const isFollowing = async (req, res) => {
 };
 
 const setProfilePic = async (req, res) => {
-  const { photo } = req.body;
+  const { photo, userId } = req.body;
   if (!photo) return;
-  const userUpdated = await db.updateProfilePic(photo);
+  const userUpdated = await db.updateProfilePic(photo, userId);
   res.json(userUpdated);
 };
 

@@ -75,10 +75,10 @@ const unfollowUser = async (followerId, followingId) => {
   return result.rows[0];
 };
 
-const updateProfilePic = async (photoUrl) => {
+const updateProfilePic = async (photoUrl, userId) => {
   const result = await pool.query(
-    "UPDATE users SET profile_image=$1 RETURNING *",
-    [photoUrl]
+    "UPDATE users SET profile_image=$1 WHERE id=$2 RETURNING *",
+    [photoUrl, userId]
   );
   return result.rows[0];
 };
