@@ -5,12 +5,13 @@ const userDb = require("../db/usersQueries");
 const createNewPost = async (req, res) => {
   try {
     const { content, userID, photo } = req.body;
-
+    if (!content) return;
     const user = await userDb.getUserById(userID);
     if (!user) {
       res.status(400).json({ message: "No user" });
       return;
     }
+
     const post = await db.createNewPost(content, userID, photo);
 
     res.json(post);

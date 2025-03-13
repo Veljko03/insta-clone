@@ -42,10 +42,18 @@ const isFollowing = async (req, res) => {
   res.json(isFollowing);
 };
 
+const setProfilePic = async (req, res) => {
+  const { photo } = req.body;
+  if (!photo) return;
+  const userUpdated = await db.updateProfilePic(photo);
+  res.json(userUpdated);
+};
+
 module.exports = {
   getAllUsers,
   searchUsers,
   fetchUserProgile,
   followUser,
   isFollowing,
+  setProfilePic,
 };

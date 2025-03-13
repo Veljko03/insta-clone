@@ -74,6 +74,14 @@ const unfollowUser = async (followerId, followingId) => {
   );
   return result.rows[0];
 };
+
+const updateProfilePic = async (photoUrl) => {
+  const result = await pool.query(
+    "UPDATE users SET profile_image=$1 RETURNING *",
+    [photoUrl]
+  );
+  return result.rows[0];
+};
 module.exports = {
   getUsers,
   getUserById,
@@ -83,4 +91,5 @@ module.exports = {
   followUser,
   unfollowUser,
   searchfollowUser,
+  updateProfilePic,
 };
