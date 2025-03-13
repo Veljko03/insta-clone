@@ -48,8 +48,10 @@ const LogPage = () => {
       })
       .then((data) => {
         if (data) {
+          console.log(data, "Data");
           localStorage.setItem("token", data.token);
           localStorage.setItem("user", JSON.stringify(data.user));
+
           navigate("/");
         }
       })

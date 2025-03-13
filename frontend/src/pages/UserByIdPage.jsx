@@ -147,7 +147,18 @@ const UserByIdPage = () => {
       </div>
       <div className="profile">
         <div className="picAndFollow">
-          <h2>img</h2>
+          {profile.profile_image ? (
+            <img
+              src={profile.profile_image}
+              alt="Profile"
+              className="profilePicture"
+              style={{ height: "100px", width: "100px", border: "40px" }}
+            />
+          ) : (
+            <div className="emptyProfilePicture">
+              <p>No Image</p>
+            </div>
+          )}{" "}
           <div className="followers">
             <div className="profileName">{profile.username}</div>
             <div className="f">

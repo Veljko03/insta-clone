@@ -32,11 +32,23 @@ const Post = ({ post, handleClick, user }) => {
   }
 
   const time = timeAgo(post.created_at);
+  console.log(post);
 
   return (
     <div onClick={openPost} className="post">
       <div className="postTop">
-        <p>P</p>
+        {post.profile_image ? (
+          <img
+            src={post.profile_image}
+            alt="Profile"
+            className="profilePicture"
+            style={{ height: "40px", width: "40px", border: "40px" }}
+          />
+        ) : (
+          <div className="emptyProfilePicture">
+            <p>No Image</p>
+          </div>
+        )}
 
         <p className="userLink" onClick={openUserById}>
           {post.username}
@@ -45,6 +57,18 @@ const Post = ({ post, handleClick, user }) => {
       </div>
       <div className="postContent">
         <p>{post.content}</p>
+        {post.post_image && (
+          <img
+            style={{
+              width: "200px",
+              height: "200px",
+              objectFit: "cover",
+              padding: "10px",
+            }}
+            src={post.post_image}
+            alt="Post"
+          />
+        )}{" "}
       </div>
       <div className="postLike">
         <div className="sub">

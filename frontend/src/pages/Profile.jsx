@@ -9,7 +9,71 @@ const ProfilePage = () => {
   const [profile, setProfile] = useState(null);
   const [posts, setPosts] = useState([]);
   const [rerender, setRerender] = useState(false);
+  const [photo, setPhoto] = useState(null);
 
+  const uploadImage = async (file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "testtest"); // Tvoj preset
+    formData.append("folder", "posts");
+    try {
+      const response = await fetch(
+        "     https://api.cloudinary.com/v1_1/dy2sfn7zd/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+      console.log(data);
+
+      return data.secure_url; // Vraća URL slike
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      alert("Failed to upload image");
+      return null;
+    }
+  };
+  const uploadPicture = async (e) => {
+    e.preventDefault();
+    if (!photo) {
+      alert("choose a photo first");
+      return;
+    }
+
+    let photoPath = null;
+
+    if (photo) {
+      photoPath = await uploadImage(photo);
+      if (!photoPath) return;
+    }
+    const userID = user.id;
+    const toSend = { photo: photoPath, userId: userID };
+    fetch(`${API_URL}/user/updatePicture`, {
+      method: "post",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(toSend),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          return;
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data) {
+          setRerender((prev) => !prev);
+        }
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+  };
   const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
   useEffect(() => {
     if (!token) return;
@@ -81,7 +145,28 @@ const ProfilePage = () => {
       </div>
       <div className="profile">
         <div className="picAndFollow">
-          <h2>img</h2>
+          <div className="profilePictureContainer">
+            {profile.profile_image ? (
+              <img
+                src={profile.profile_image}
+                alt="Profile"
+                className="profilePicture"
+                style={{ height: "100px", width: "100px", border: "40px" }}
+              />
+            ) : (
+              <div className="emptyProfilePicture">
+                <p>No Image</p>
+              </div>
+            )}
+            <input
+              type="file"
+              accept="image/png, image/jpeg"
+              onChange={(e) => setPhoto(e.target.files[0])}
+            />
+            <button className="uploadButton" onClick={uploadPicture}>
+              Upload Picture
+            </button>
+          </div>
           <div className="followers">
             <div className="profileName">{profile.username}</div>
             <div className="f">
