@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./pages.css";
 import { useOutletContext, useNavigate } from "react-router-dom";
 
@@ -6,25 +6,33 @@ const CreatePage = () => {
   const [content, setContent] = useState("");
   const [photo, setPhoto] = useState(null);
   const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
+  const CLOUDINARY_KEY = import.meta.env.VITE_CLOUDINARY_API_KEY;
+  const CLOUDINARY_KEY_SECRET = import.meta.env.VITE_CLOUDINARY_API_KEY_SECRET;
+
   const [token, user, supabase] = useOutletContext();
   const navigate = useNavigate();
 
   const uploadImage = async (file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "testtest"); // Tvoj preset
+    formData.append("folder", "posts");
     try {
-      console.log(file);
-      if (!user) return;
-      const fileName = `${Date.now()}_${file.name}`;
+      const response = await fetch(
+        "     https://api.cloudinary.com/v1_1/dy2sfn7zd/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
-      const { data, error } = await supabase.storage
-        .from("pics")
-        .upload(user.id + "/" + file.name, file);
+      const data = await response.json();
+      console.log(data);
 
-      if (error) throw error;
-      console.log("Uploaded image:", data);
-      return data.path; // Vraća putanju slike
+      return data.secure_url; // Vraća URL slike
     } catch (error) {
-      console.error("Image upload failed:", error.message);
-      alert("Failed to upload image.");
+      console.error("Error uploading image:", error);
+      alert("Failed to upload image");
       return null;
     }
   };

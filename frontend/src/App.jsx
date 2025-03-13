@@ -8,9 +8,21 @@ import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = "https://lhohuityiifhagdcinmp.supabase.co";
 const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
+console.log(supabaseKey);
 
 const supabase = createClient(supabaseUrl, supabaseKey);
+console.log("st ", supabase.storage);
+async function getBuckets() {
+  const { data, error } = await supabase.storage.listBuckets();
 
+  if (error) {
+    console.log("Error:", error);
+  } else {
+    console.log("Buckets:", data);
+  }
+}
+
+getBuckets();
 function App() {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
