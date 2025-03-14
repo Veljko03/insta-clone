@@ -8,11 +8,13 @@ const HomePage = () => {
   const [error, setError] = useState(null);
   const [token, user] = useOutletContext();
   const [rerender, setRerender] = useState(false);
+  const [filter, setFilter] = useState("recent");
 
   const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
 
   useEffect(() => {
     if (!token) return;
+    if (filter == "following") return;
 
     fetch(`${API_URL}/post`, {
       method: "get",
@@ -27,7 +29,7 @@ const HomePage = () => {
         setError(error);
         console.log(error);
       });
-  }, [rerender]);
+  }, [rerender, filter]);
 
   const handleLikePost = (postId, event) => {
     event.stopPropagation();
@@ -52,6 +54,25 @@ const HomePage = () => {
       .catch((error) => console.log(error));
   };
 
+  const dispayFollowingPosts = (e) => {
+    e.preventDefault();
+    fetch(`${API_URL}/followers`, {
+      method: "post",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ userId: user.id }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setPosts(data);
+        setFilter("following");
+      })
+      .catch((error) => console.log(error));
+  };
+
   if (posts.length == 0) return <p>Loading...</p>;
   if (error) return <p>A network error was encountered</p>;
 
@@ -61,10 +82,20 @@ const HomePage = () => {
     <div className="homeContainer">
       <div className="homeNav">
         <div className="n1">
-          <a href="">Recent</a>
+          <div
+            className={`recentFollow ${filter === "recent" ? "active" : ""}`}
+            onClick={() => setFilter("recent")}
+          >
+            Recent
+          </div>
         </div>
         <div className="n2">
-          <a href="">Following</a>
+          <div
+            onClick={dispayFollowingPosts}
+            className={`recentFollow ${filter === "following" ? "active" : ""}`}
+          >
+            Following
+          </div>
         </div>
       </div>
       <div className="posts">

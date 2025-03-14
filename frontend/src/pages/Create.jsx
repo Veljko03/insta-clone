@@ -6,10 +6,8 @@ const CreatePage = () => {
   const [content, setContent] = useState("");
   const [photo, setPhoto] = useState(null);
   const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
-  const CLOUDINARY_KEY = import.meta.env.VITE_CLOUDINARY_API_KEY;
-  const CLOUDINARY_KEY_SECRET = import.meta.env.VITE_CLOUDINARY_API_KEY_SECRET;
 
-  const [token, user, supabase] = useOutletContext();
+  const [token, user] = useOutletContext();
   const navigate = useNavigate();
 
   const uploadImage = async (file) => {
