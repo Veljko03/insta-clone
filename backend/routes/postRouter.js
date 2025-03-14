@@ -8,6 +8,7 @@ const {
   fetchLikedPosts,
   fetchPostsByUserId,
   fetcgUsersChat,
+  fetchPostsFromFollowers,
 } = require("../controllers/postController");
 const {
   createNewComment,
@@ -24,6 +25,12 @@ router.post(
   "/post",
   passport.authenticate("jwt", { session: false }),
   createNewPost
+);
+
+router.post(
+  "/followers",
+  passport.authenticate("jwt", { session: false }),
+  fetchPostsFromFollowers
 );
 
 router.get(

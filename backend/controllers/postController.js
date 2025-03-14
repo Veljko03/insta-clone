@@ -25,6 +25,12 @@ const fetchAllPosts = async (req, res) => {
   res.json(posts);
 };
 
+const fetchPostsFromFollowers = async (req, res) => {
+  const { userId } = req.body;
+  const posts = await db.getPostsFromFollowing(userId);
+  res.json(posts);
+};
+
 const fetchPostById = async (req, res) => {
   const postId = req.params.id;
   console.log(postId);
@@ -93,4 +99,5 @@ module.exports = {
   fetchLikedPosts,
   fetchPostsByUserId,
   fetcgUsersChat,
+  fetchPostsFromFollowers,
 };

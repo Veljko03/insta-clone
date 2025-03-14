@@ -14,6 +14,27 @@ const getAllPosts = async () => {
   );
   return result.rows;
 };
+const getPostsFromFollowing = async (userId) => {
+  const result = await pool.query(
+    `
+    SELECT p.*, 
+           u.username, 
+           u.profile_image, 
+           COUNT(DISTINCT c.id) as comments, 
+           COUNT(DISTINCT l.id) as likes
+    FROM posts p
+    INNER JOIN users u ON p.user_id = u.id
+    LEFT JOIN comments c ON p.id = c.post_id
+    LEFT JOIN post_likes l ON p.id = l.post_id
+    INNER JOIN follows f ON f.following = p.user_id
+    WHERE f.follower = $1
+    GROUP BY p.id, u.username, u.profile_image
+    ORDER BY p.created_at DESC
+    `,
+    [userId]
+  );
+  return result.rows;
+};
 
 const getPostById = async (postId) => {
   console.log(postId);
@@ -87,4 +108,5 @@ module.exports = {
   getLikedPosts,
   getPostComments,
   getPostsByUserId,
+  getPostsFromFollowing,
 };
