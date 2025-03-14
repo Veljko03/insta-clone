@@ -37,19 +37,15 @@ const Post = ({ post, handleClick, user }) => {
   return (
     <div onClick={openPost} className="post">
       <div className="postTop">
-        {post.profile_image ? (
-          <img
-            src={post.profile_image}
-            alt="Profile"
-            className="profilePicture"
-            style={{ height: "40px", width: "40px", border: "40px" }}
-          />
-        ) : (
-          <div className="emptyProfilePicture">
-            <p>No Image</p>
-          </div>
-        )}
-
+        <div className="ImageContainer">
+          {post.profile_image ? (
+            <img src={post.profile_image} alt="Profile" className="commImage" />
+          ) : (
+            <div className="noImageText">
+              <p>No Image</p>
+            </div>
+          )}
+        </div>
         <p className="userLink" onClick={openUserById}>
           {post.username}
         </p>

@@ -173,7 +173,18 @@ const SinglePost = () => {
         {post.postComments.map((comment) => (
           <div key={comment.id} className="comm">
             <div className="comUser">
-              <p>IMG</p>
+              <div className="commentImageContainer">
+                {comment.profile_image ? (
+                  <img
+                    className="commImage"
+                    src={comment.profile_image}
+                    alt="Profile"
+                  />
+                ) : (
+                  <p className="noImageText">No Img</p>
+                )}
+              </div>
+
               <p className="userLink" onClick={openUserById}>
                 {comment.username}
               </p>

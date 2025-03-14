@@ -74,6 +74,7 @@ const ProfilePage = () => {
         alert(err.message);
       });
   };
+
   const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
   useEffect(() => {
     if (!token) return;
@@ -135,6 +136,7 @@ const ProfilePage = () => {
   };
   if (!profile) return <p>Loading...</p>;
   console.log(profile);
+  console.log(posts);
 
   return (
     <div className="profileCon">
@@ -158,6 +160,8 @@ const ProfilePage = () => {
                 <p>No Image</p>
               </div>
             )}
+          </div>
+          <div className="choseUpload">
             <input
               type="file"
               accept="image/png, image/jpeg"
@@ -167,6 +171,7 @@ const ProfilePage = () => {
               Upload Picture
             </button>
           </div>
+
           <div className="followers">
             <div className="profileName">{profile.username}</div>
             <div className="f">
