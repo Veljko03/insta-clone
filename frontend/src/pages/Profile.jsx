@@ -10,6 +10,7 @@ const ProfilePage = () => {
   const [posts, setPosts] = useState([]);
   const [rerender, setRerender] = useState(false);
   const [photo, setPhoto] = useState(null);
+  const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
 
   const uploadImage = async (file) => {
     const formData = new FormData();
@@ -75,7 +76,6 @@ const ProfilePage = () => {
       });
   };
 
-  const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
   useEffect(() => {
     if (!token) return;
     const id = user.id;
@@ -192,6 +192,7 @@ const ProfilePage = () => {
         </div>
         <div className="bio">
           <p>{profile.biography}aaaaaaaaa</p>
+          <button>Update bio</button>
         </div>
       </div>
       <div className="posts">

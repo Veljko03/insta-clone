@@ -48,7 +48,6 @@ const HomePage = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setRerender((prev) => !prev);
       })
       .catch((error) => console.log(error));
@@ -77,7 +76,6 @@ const HomePage = () => {
   if (error) return <p>A network error was encountered</p>;
 
   if (!posts) return <p>Loading...</p>;
-  console.log(posts);
   return (
     <div className="homeContainer">
       <div className="homeNav">

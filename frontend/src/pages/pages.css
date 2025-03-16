@@ -273,14 +273,13 @@
 }
 .profilePictureContainer {
   border: 1px solid white;
-  width: 100px;
-  height: 100px;
+  width: 140px;
+  height: 140px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
   overflow: hidden;
-  background-color: #f0f0f0; /* Pozadinska boja za "No Img" */
   font-size: 0.8rem;
   font-weight: bold;
   color: #999;
@@ -294,7 +293,6 @@
   align-items: center;
   border-radius: 50%;
   overflow: hidden;
-  background-color: #f0f0f0; /* Pozadinska boja za "No Img" */
   font-size: 0.8rem;
   font-weight: bold;
   color: #999;

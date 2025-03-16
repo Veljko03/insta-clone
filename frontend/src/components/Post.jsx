@@ -32,7 +32,6 @@ const Post = ({ post, handleClick, user }) => {
   }
 
   const time = timeAgo(post.created_at);
-  console.log(post);
 
   return (
     <div onClick={openPost} className="post">

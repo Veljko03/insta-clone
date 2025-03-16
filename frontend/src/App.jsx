@@ -26,8 +26,11 @@ getBuckets();
 function App() {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
+  const [profile, setProfile] = useState(null);
+  const [rerender, setRerender] = useState(false);
   const navigate = useNavigate();
   const [isConnected, setIsConnected] = useState(socket.connected);
+  const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
 
   const isTokenExpired = (token) => {
     if (!token) return true;
@@ -54,7 +57,7 @@ function App() {
     }
 
     if (sotredUser && storedToken && !result) {
-      console.log(result);
+      setRerender((prev) => !prev);
 
       setUser(JSON.parse(sotredUser));
       setToken(storedToken);
@@ -72,12 +75,37 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!user || !token) return;
+    console.log("ide");
+
+    const id = user.id;
+    fetch(`${API_URL}/user/${id}`, {
+      method: "get",
+      mode: "cors",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data, "raaaaaaaaaaaaa");
+
+        setProfile(data);
+      })
+      .catch((error) => console.log(error));
+  }, [user]);
+
   if (!user || !token) return null;
+
   return (
     <div className="appContainer">
       <div className="header">
         <div className="titile">Insta Clone</div>
-        <div className="porfilePic">profile pic</div>
+
+        <div onClick={() => navigate("/view-profile")} className="porfilePic">
+          <img className="profilePicture" src={profile?.profile_image} alt="" />
+        </div>
       </div>
       <div className="content">
         <SideBar />
