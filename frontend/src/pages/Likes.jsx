@@ -9,6 +9,7 @@ const LikesPage = () => {
   const [rerender, setRerender] = useState(false);
   const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
   const navigate = useNavigate();
+  //useeffect
   useEffect(() => {
     if (!token || !user) return;
     const userID = user.id;
