@@ -8,10 +8,9 @@ import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = "https://lhohuityiifhagdcinmp.supabase.co";
 const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
-console.log(supabaseKey);
 
 const supabase = createClient(supabaseUrl, supabaseKey);
-console.log("st ", supabase.storage);
+
 async function getBuckets() {
   const { data, error } = await supabase.storage.listBuckets();
 
@@ -58,7 +57,6 @@ function App() {
 
     if (sotredUser && storedToken && !result) {
       setRerender((prev) => !prev);
-
       setUser(JSON.parse(sotredUser));
       setToken(storedToken);
     } else {
@@ -89,8 +87,6 @@ function App() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data, "raaaaaaaaaaaaa");
-
         setProfile(data);
       })
       .catch((error) => console.log(error));

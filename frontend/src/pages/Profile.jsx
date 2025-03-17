@@ -11,6 +11,58 @@ const ProfilePage = () => {
   const [rerender, setRerender] = useState(false);
   const [photo, setPhoto] = useState(null);
   const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
+  const [biography, setBiography] = useState("No biography...");
+  const [isEditing, setIsEditing] = useState(false);
+  const [tempBiography, setTempBiography] = useState(biography);
+
+  useEffect(() => {
+    if (!profile) return;
+
+    if (!profile.biography || profile.biography === "No biography...") {
+      setBiography("No biography...");
+    } else {
+      setBiography(profile.biography);
+    }
+  }, [profile]);
+  const handleEditClick = () => {
+    setTempBiography(biography);
+    setIsEditing(true);
+  };
+
+  const handleSaveClick = () => {
+    //setBiography(tempBiography);
+
+    const toSend = { userId: user.id, bio: tempBiography };
+    fetch(`${API_URL}/user/updateBio`, {
+      method: "post",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(toSend),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          return;
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data) {
+          setBiography(data.biography);
+        }
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+
+    setIsEditing(false);
+  };
+
+  const handleCancelClick = () => {
+    setIsEditing(false);
+  };
 
   const uploadImage = async (file) => {
     const formData = new FormData();
@@ -135,6 +187,7 @@ const ProfilePage = () => {
       .catch((error) => console.log(error));
   };
   if (!profile) return <p>Loading...</p>;
+
   console.log(profile);
   console.log(posts);
 
@@ -191,8 +244,33 @@ const ProfilePage = () => {
           </div>
         </div>
         <div className="bio">
-          <p>{profile.biography}aaaaaaaaa</p>
-          <button>Update bio</button>
+          {isEditing ? (
+            <div>
+              <textarea
+                className="bioInput"
+                value={tempBiography}
+                onChange={(e) => setTempBiography(e.target.value)}
+                rows="4"
+                cols="50"
+                minLength={1}
+              />
+              <div className="bioBtns">
+                <button className="updateBtn1" onClick={handleSaveClick}>
+                  Save
+                </button>
+                <button className="updateBtn2" onClick={handleCancelClick}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <p>{biography}</p>
+              <button className="changeBio" onClick={handleEditClick}>
+                Change Biography
+              </button>
+            </div>
+          )}
         </div>
       </div>
       <div className="posts">
