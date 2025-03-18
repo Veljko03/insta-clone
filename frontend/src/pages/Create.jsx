@@ -6,6 +6,7 @@ const CreatePage = () => {
   const [content, setContent] = useState("");
   const [photo, setPhoto] = useState(null);
   const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
+  const [isLoading, setIsLoading] = useState(false);
 
   const [token, user] = useOutletContext();
   const navigate = useNavigate();
@@ -40,6 +41,7 @@ const CreatePage = () => {
     if (content == "") {
       alert("Please type something first");
     }
+    setIsLoading(true);
     const userID = user.id;
 
     let photoPath = null;
@@ -75,7 +77,8 @@ const CreatePage = () => {
       })
       .catch((err) => {
         alert(err.message);
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
@@ -90,15 +93,18 @@ const CreatePage = () => {
           type="text"
           onChange={(e) => setContent(e.target.value)}
           value={content}
+          disabled={isLoading}
           placeholder="Share your toughts..."
         />
         <input
           type="file"
           accept="image/png, image/jpeg"
+          disabled={isLoading}
           onChange={(e) => setPhoto(e.target.files[0])}
         />
         <button type="submit">Post</button>
       </form>
+      {isLoading && <div className="loading">Loading...</div>}
     </div>
   );
 };

@@ -14,6 +14,7 @@ const ProfilePage = () => {
   const [biography, setBiography] = useState("No biography...");
   const [isEditing, setIsEditing] = useState(false);
   const [tempBiography, setTempBiography] = useState(biography);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!profile) return;
@@ -71,7 +72,7 @@ const ProfilePage = () => {
     formData.append("folder", "posts");
     try {
       const response = await fetch(
-        "     https://api.cloudinary.com/v1_1/dy2sfn7zd/image/upload",
+        "https://api.cloudinary.com/v1_1/dy2sfn7zd/image/upload",
         {
           method: "POST",
           body: formData,
@@ -79,7 +80,6 @@ const ProfilePage = () => {
       );
 
       const data = await response.json();
-      console.log(data);
 
       return data.secure_url; // Vraća URL slike
     } catch (error) {
@@ -94,6 +94,7 @@ const ProfilePage = () => {
       alert("choose a photo first");
       return;
     }
+    setIsLoading(true);
 
     let photoPath = null;
 
@@ -125,6 +126,9 @@ const ProfilePage = () => {
       })
       .catch((err) => {
         alert(err.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -140,8 +144,7 @@ const ProfilePage = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-
+        localStorage.setItem("user", JSON.stringify(data));
         setProfile(data);
       })
       .catch((error) => console.log(error));
@@ -157,8 +160,6 @@ const ProfilePage = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-
         setPosts(data);
       })
       .catch((error) => console.log(error));
@@ -181,15 +182,11 @@ const ProfilePage = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setRerender((prev) => !prev);
       })
       .catch((error) => console.log(error));
   };
   if (!profile) return <p>Loading...</p>;
-
-  console.log(profile);
-  console.log(posts);
 
   return (
     <div className="profileCon">
@@ -218,13 +215,22 @@ const ProfilePage = () => {
             <input
               type="file"
               accept="image/png, image/jpeg"
+              disabled={isLoading}
               onChange={(e) => setPhoto(e.target.files[0])}
             />
-            <button className="uploadButton" onClick={uploadPicture}>
+            <button
+              disabled={isLoading}
+              className="uploadButton"
+              onClick={uploadPicture}
+            >
               Upload Picture
             </button>
           </div>
-
+          {isLoading && (
+            <h1
+              style={{ padding: "30px", color: "red", fontSize: "24px" }}
+            ></h1>
+          )}
           <div className="followers">
             <div className="profileName">{profile.username}</div>
             <div className="f">

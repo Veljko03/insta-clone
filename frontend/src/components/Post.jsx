@@ -55,8 +55,8 @@ const Post = ({ post, handleClick, user }) => {
         {post.post_image && (
           <img
             style={{
-              width: "200px",
-              height: "200px",
+              width: "300px",
+              height: "300px",
               objectFit: "cover",
               padding: "10px",
             }}

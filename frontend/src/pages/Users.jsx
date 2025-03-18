@@ -30,6 +30,7 @@ const UsersPage = () => {
       .then((data) => {
         if (data) {
           setUsers(data);
+          console.log(data);
         }
       })
       .catch((err) => {
@@ -65,7 +66,19 @@ const UsersPage = () => {
                 onClick={() => navigate(`/user/${user.id}`)}
                 className="userS"
               >
-                <div className="userPic">pic</div>
+                <div className="ImageContainer">
+                  {user.profile_image ? (
+                    <img
+                      src={user.profile_image}
+                      alt="Profile"
+                      className="commImage"
+                    />
+                  ) : (
+                    <div className="noImageText">
+                      <p>No Image</p>
+                    </div>
+                  )}
+                </div>
                 <div className="nameAndMail">
                   <p>@{user.username} </p>
                 </div>
