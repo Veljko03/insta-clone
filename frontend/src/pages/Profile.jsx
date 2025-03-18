@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./pages.css";
-import { useOutletContext, useParams, useNavigate } from "react-router-dom";
+import { useOutletContext, useNavigate } from "react-router-dom";
 import Post from "../components/Post";
 
 const ProfilePage = () => {
@@ -68,7 +68,7 @@ const ProfilePage = () => {
   const uploadImage = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "testtest"); // Tvoj preset
+    formData.append("upload_preset", "testtest");
     formData.append("folder", "posts");
     try {
       const response = await fetch(
@@ -144,7 +144,7 @@ const ProfilePage = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        localStorage.setItem("user", JSON.stringify(data));
+        // localStorage.setItem("user", JSON.stringify(data));
         setProfile(data);
       })
       .catch((error) => console.log(error));
@@ -203,7 +203,6 @@ const ProfilePage = () => {
                 src={profile.profile_image}
                 alt="Profile"
                 className="profilePicture"
-                style={{ height: "100px", width: "100px", border: "40px" }}
               />
             ) : (
               <div className="emptyProfilePicture">
@@ -270,8 +269,14 @@ const ProfilePage = () => {
               </div>
             </div>
           ) : (
-            <div>
-              <p>{biography}</p>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+            >
+              <textarea
+                disabled={true}
+                value={biography}
+                style={{ fontSize: "20px", color: "white", border: "0" }}
+              ></textarea>
               <button className="changeBio" onClick={handleEditClick}>
                 Change Biography
               </button>

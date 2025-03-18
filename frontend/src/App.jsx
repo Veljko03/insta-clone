@@ -4,24 +4,24 @@ import SideBar from "./Sidebar";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { socket } from "./socket";
-import { createClient } from "@supabase/supabase-js";
+//import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = "https://lhohuityiifhagdcinmp.supabase.co";
-const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
+// const supabaseUrl = "https://lhohuityiifhagdcinmp.supabase.co";
+// const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
 
-const supabase = createClient(supabaseUrl, supabaseKey);
+// const supabase = createClient(supabaseUrl, supabaseKey);
 
-async function getBuckets() {
-  const { data, error } = await supabase.storage.listBuckets();
+// async function getBuckets() {
+//   const { data, error } = await supabase.storage.listBuckets();
 
-  if (error) {
-    console.log("Error:", error);
-  } else {
-    console.log("Buckets:", data);
-  }
-}
+//   if (error) {
+//     console.log("Error:", error);
+//   } else {
+//     console.log("Buckets:", data);
+//   }
+// }
 
-getBuckets();
+// getBuckets();
 function App() {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
@@ -105,7 +105,7 @@ function App() {
       </div>
       <div className="content">
         <SideBar />
-        <Outlet context={[token, user, supabase]} />
+        <Outlet context={[token, user]} />
       </div>
     </div>
   );
