@@ -45,7 +45,8 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/auth/oauth2/redirect/google",
+      callbackURL:
+        "https://insta-clone-back-kwvu.onrender.com/auth/oauth2/redirect/google",
       scope: ["profile", "email"],
       passReqToCallback: true,
     },
