@@ -49,6 +49,12 @@ const setProfilePic = async (req, res) => {
   res.json(userUpdated);
 };
 
+const updateBio = async (req, res) => {
+  const { userId, bio } = req.body;
+  const updatedUser = await db.updateProfileBio(bio, userId);
+  res.json(updatedUser);
+};
+
 module.exports = {
   getAllUsers,
   searchUsers,
@@ -56,4 +62,5 @@ module.exports = {
   followUser,
   isFollowing,
   setProfilePic,
+  updateBio,
 };

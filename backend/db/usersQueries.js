@@ -82,8 +82,17 @@ const updateProfilePic = async (photoUrl, userId) => {
   );
   return result.rows[0];
 };
+
+const updateProfileBio = async (bio, userId) => {
+  const result = await pool.query(
+    "UPDATE users SET biography=$1 WHERE id=$2 RETURNING *",
+    [bio, userId]
+  );
+  return result.rows[0];
+};
 module.exports = {
   getUsers,
+  updateProfileBio,
   getUserById,
   getUserByEmail,
   getUserByString,

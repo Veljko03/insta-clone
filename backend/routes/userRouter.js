@@ -9,5 +9,6 @@ router.get("/:id", controller.fetchUserProgile);
 router.post("/follow", controller.followUser);
 router.post("/isFollowing", controller.isFollowing);
 router.post("/updatePicture", controller.setProfilePic);
+router.post("/updateBio", controller.updateBio);
 
 module.exports = router;
