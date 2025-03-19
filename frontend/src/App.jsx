@@ -17,15 +17,19 @@ function App() {
 
   useEffect(() => {
     const wakeUpBackend = async () => {
-      try {
-        const response = await fetch(`${API_URL}/health-check`);
-        if (response.ok) {
-          console.log("Backend is awake");
-          setBackendReady(true);
-        }
-      } catch (error) {
-        console.error("Failed to wake up backend:", error);
-      }
+      await fetch(`${API_URL}/health-check`, {
+        method: "get",
+        mode: "cors",
+      })
+        .then((res) => {
+          if (res.ok) {
+            console.log("Backend is awake");
+            setBackendReady(true);
+          }
+        })
+        .catch((error) => {
+          console.error("Failed to wake up backend:", error);
+        });
     };
 
     wakeUpBackend();
