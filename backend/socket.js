@@ -11,6 +11,7 @@ const envFile =
     : ".env.development";
 
 dotenv.config({ path: envFile });
+console.log("URL", process.env.URL);
 
 const initializeSocket = (server) => {
   const io = new Server(server, {

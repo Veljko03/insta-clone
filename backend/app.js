@@ -15,9 +15,13 @@ const { authRouter, userRouter, postRouter } = require("./routes/index");
 
 const server = createServer(app);
 initializeSocket(server);
-
+const corsOptions = {
+  origin: process.env.URL, // tvoj frontend domen
+  methods: "GET,POST",
+  allowedHeaders: "Content-Type, Authorization",
+};
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
 app.use("/", postRouter);
