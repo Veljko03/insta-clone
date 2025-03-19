@@ -4,24 +4,7 @@ import SideBar from "./Sidebar";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { socket } from "./socket";
-//import { createClient } from "@supabase/supabase-js";
 
-// const supabaseUrl = "https://lhohuityiifhagdcinmp.supabase.co";
-// const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
-
-// const supabase = createClient(supabaseUrl, supabaseKey);
-
-// async function getBuckets() {
-//   const { data, error } = await supabase.storage.listBuckets();
-
-//   if (error) {
-//     console.log("Error:", error);
-//   } else {
-//     console.log("Buckets:", data);
-//   }
-// }
-
-// getBuckets();
 function App() {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);

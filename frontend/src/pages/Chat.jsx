@@ -78,6 +78,7 @@ const ChatPage = () => {
       </h1>
     );
   console.log(conversations);
+  console.log(allMessages);
 
   return (
     <div className="chatContainer">
@@ -87,7 +88,19 @@ const ChatPage = () => {
           className="cahtUser"
           onClick={() => navigate(`/chat/${chat.other_user_id}`)}
         >
-          PIC
+          <div className="ImageContainer">
+            {chat.other_user_profile_image ? (
+              <img
+                src={chat.other_user_profile_image}
+                alt="Profile"
+                className="commImage"
+              />
+            ) : (
+              <div className="noImageText">
+                <p>No Image</p>
+              </div>
+            )}
+          </div>
           <div className="nameContent">
             <p>{chat.other_user_username}</p>
             <p className="con">{chat.content}</p>
