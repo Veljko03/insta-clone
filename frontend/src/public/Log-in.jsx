@@ -10,7 +10,23 @@ const LogPage = () => {
   const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
 
   const navigate = useNavigate();
+  const [backendReady, setBackendReady] = useState(false);
 
+  useEffect(() => {
+    const wakeUpBackend = async () => {
+      try {
+        const response = await fetch(`${API_URL}/health-check`);
+        if (response.ok) {
+          console.log("Backend is awake");
+          setBackendReady(true);
+        }
+      } catch (error) {
+        console.error("Failed to wake up backend:", error);
+      }
+    };
+
+    wakeUpBackend();
+  }, []);
   useEffect(() => {
     let queryString = window.location.search;
     let objectString = queryString.split("=")[1];
@@ -59,7 +75,16 @@ const LogPage = () => {
         alert(err.message);
       });
   };
-
+  if (!backendReady) {
+    return (
+      <div>
+        <h1 style={{ color: "white" }}>HI please wait a bit :(</h1>
+        <h1 style={{ color: "white" }}>
+          Im using free server and its on sleep mode now, page will load soon
+        </h1>
+      </div>
+    );
+  }
   return (
     <div className="mainContainer">
       <div className="topTitle">Insta Clone</div>
