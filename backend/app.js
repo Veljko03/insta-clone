@@ -20,6 +20,9 @@ const corsOptions = {
   methods: "GET,POST",
   allowedHeaders: "Content-Type, Authorization",
 };
+app.get("/health-check", (req, res) => {
+  res.status(200).json({ status: "Server is awake" });
+});
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use("/auth", authRouter);
