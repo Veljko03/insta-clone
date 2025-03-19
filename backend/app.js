@@ -15,5 +15,5 @@ app.use(cors());
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
 app.use("/", postRouter);
-
-server.listen(3000, () => console.log("app running on port 3000"));
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => console.log("app running on port 3000"));
