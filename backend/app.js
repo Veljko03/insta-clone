@@ -20,11 +20,13 @@ const corsOptions = {
   methods: "GET,POST",
   allowedHeaders: "Content-Type, Authorization",
 };
+app.use(cors(corsOptions));
 app.get("/health-check", (req, res) => {
+  console.log("usao");
+
   res.status(200).json({ status: "Server is awake" });
 });
 app.use(express.json());
-app.use(cors(corsOptions));
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
 app.use("/", postRouter);
