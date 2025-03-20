@@ -15,25 +15,29 @@ function App() {
   const API_URL = import.meta.env.VITE_BACKEND_APP_API_URL;
   const [backendReady, setBackendReady] = useState(false);
 
-  // useEffect(() => {
-  //   const wakeUpBackend = async () => {
-  //     await fetch(`${API_URL}/health-check`, {
-  //       method: "get",
-  //       mode: "cors",
-  //     })
-  //       .then((res) => {
-  //         if (res.ok) {
-  //           console.log("Backend is awake");
-  //           setBackendReady(true);
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         console.error("Failed to wake up backend:", error);
-  //       });
-  //   };
+  useEffect(() => {
+    const wakeUpBackend = async () => {
+      try {
+        const res = await fetch(`${API_URL}/health-check`, {
+          method: "get",
+          mode: "cors",
+        });
 
-  //   wakeUpBackend();
-  // }, []);
+        if (res.ok) {
+          console.log("Backend is awake");
+          setBackendReady(true);
+        } else {
+          console.error("Backend is not ready, retrying...");
+          setTimeout(wakeUpBackend, 3000);
+        }
+      } catch (error) {
+        console.error("Failed to wake up backend, retrying...", error);
+        setTimeout(wakeUpBackend, 3000);
+      }
+    };
+
+    wakeUpBackend();
+  }, []);
 
   const isTokenExpired = (token) => {
     if (!token) return true;
@@ -96,16 +100,16 @@ function App() {
       .catch((error) => console.log(error));
   }, [user]);
 
-  // if (!backendReady) {
-  //   return (
-  //     <div>
-  //       <h1 style={{ color: "white" }}>HI please wait a bit :(</h1>
-  //       <h1 style={{ color: "white" }}>
-  //         Im using free server and its on sleep mode now, page will load soon
-  //       </h1>
-  //     </div>
-  //   );
-  // }
+  if (!backendReady) {
+    return (
+      <div style={{ justifyContent: "center", alignItems: "center" }}>
+        <h1 style={{ color: "white" }}>HI please wait a bit :(</h1>
+        <h1 style={{ color: "white" }}>
+          Im using free server and its on sleep mode now, page will load soon
+        </h1>
+      </div>
+    );
+  }
   if (!user || !token) return null;
 
   return (

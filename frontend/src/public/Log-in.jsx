@@ -3,7 +3,7 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import "./public.css";
 import { Link, useNavigate } from "react-router-dom";
-
+//backend se ne pali zato sto ga nista ne trigeruje
 const LogPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,19 +14,23 @@ const LogPage = () => {
 
   useEffect(() => {
     const wakeUpBackend = async () => {
-      await fetch(`${API_URL}/health-check`, {
-        method: "get",
-        mode: "cors",
-      })
-        .then((res) => {
-          if (res.ok) {
-            console.log("Backend is awake");
-            setBackendReady(true);
-          }
-        })
-        .catch((error) => {
-          console.error("Failed to wake up backend:", error);
+      try {
+        const res = await fetch(`${API_URL}/health-check`, {
+          method: "get",
+          mode: "cors",
         });
+
+        if (res.ok) {
+          console.log("Backend is awake");
+          setBackendReady(true);
+        } else {
+          console.error("Backend is not ready, retrying...");
+          setTimeout(wakeUpBackend, 3000);
+        }
+      } catch (error) {
+        console.error("Failed to wake up backend, retrying...", error);
+        setTimeout(wakeUpBackend, 3000);
+      }
     };
 
     wakeUpBackend();
@@ -81,7 +85,7 @@ const LogPage = () => {
   };
   if (!backendReady) {
     return (
-      <div>
+      <div style={{ justifyContent: "center", alignItems: "center" }}>
         <h1 style={{ color: "white" }}>HI please wait a bit :(</h1>
         <h1 style={{ color: "white" }}>
           Im using free server and its on sleep mode now, page will load soon
