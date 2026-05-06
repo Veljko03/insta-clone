@@ -16,7 +16,7 @@ const getUserByString = async (str) => {
     [`%${str}%`]
   );
 
-  return users.rows;
+  return users.rows; 
 };
 const getUserByEmail = async (email) => {
   try {
